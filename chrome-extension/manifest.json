@@ -1,0 +1,28 @@
+{
+  "manifest_version": 2,
+
+  "name": "TobiiEyeX chromeExtension v4",
+  "description": "Tobii EyeX chrome Extension v4",
+  "version": "4.0",
+
+  "browser_action": {
+    "default_title": "TobiiEyeX chromeExtension V4",
+    "default_icon": "icon.png",
+    "default_popup": "popup.html"
+  },
+  "content_scripts" : [
+    {
+      "matches" :  ["file:///*","*://*/*"],
+      "css": ["content_css.css"],
+      "js" : ["content.js"]
+    }
+  ],
+  "background" : {  
+    "scripts" : ["background.js"],  
+    "persistent" : false  
+  },  
+  "permissions": [
+    "nativeMessaging",
+    "tabs"
+  ]
+}

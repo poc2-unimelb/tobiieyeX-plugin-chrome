@@ -1,0 +1,3 @@
+Windows Registry Editor Version 5.00
+[HKEY_CURRENT_USER\Software\Google\Chrome\NativeMessagingHosts\com.tobiieyex.chromeextension.v4]
+@="C:\\Users\\SocialNUI\\Documents\\GitHub\\tobiieyeX-plugin\\manifest\\windows\\examplemanifest.json"

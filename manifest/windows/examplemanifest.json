@@ -1,9 +1,9 @@
 {
   "name": "com.tobiieyex.chromeextension.v4",
   "description": "Tobii EyeX chrome Extension",
-  "path": "C:/Users/SocialNUI/Documents/GitHub/tobiieyeX-plugin/NativeMessagingExample/NativeMessagingExample/bin/Debug/NativeMessagingExample.exe",
+  "path": "C:/Users/SocialNUI/Documents/GitHub/tobiieyeX/NativeMessagingExample/NativeMessagingExample/bin/Debug/NativeMessagingExample.exe",
   "type": "stdio",
   "allowed_origins": [
-    "chrome-extension://fkdbpllgolbokkfcgehacbpjmoaejmna/"
+    "chrome-extension://nhfcokbgfnleobmdcanighoempgcmeki/"
   ]
 }

@@ -1,5 +1,7 @@
 $(document).ready(function(){
 
+    $('p').css('font-size','30px');
+    
     $('p').each(function(){
             var text = $(this).html().split(' '),
                 len = text.length,
@@ -11,16 +13,25 @@ $(document).ready(function(){
             $(this).html(result.join(' '));
     });
 
-   $( '.overlay' ).each( function( index, element ){    
+   $( '.overlay' ).each( function( index, element ){   
+
           $( this ).eyeIn(
             function() {
               this.$element.css('background', '#ffff99');          
             },2
           );
+
           $( this ).eyeOut(
             function() {
               this.$element.css('background', 'transparent');     
             },10
+          );
+
+          $( this ).eyeIn(
+            function() {
+                var utterance = new SpeechSynthesisUtterance(this.$element.text());
+                speechSynthesis.speak(utterance);
+            },20
           );
     });
 
@@ -29,4 +40,5 @@ $(document).ready(function(){
         	$( '.overlay' ).css('background', 'transparent');
     	}
   	);
+
 });

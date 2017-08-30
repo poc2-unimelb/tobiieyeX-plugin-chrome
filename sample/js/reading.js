@@ -76,4 +76,11 @@ $(document).ready(function(){
     	}
   	);
 
+    $( "a[class='menu-item red']" ).click(function() {
+        var topGazeElements = $.topGazeElement(5);
+        for (var i = 0; i < topGazeElements.length; i++){
+          topGazeElements[i].css('color','red');    
+        }
+    });
+
 });

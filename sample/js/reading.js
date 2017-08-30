@@ -75,12 +75,18 @@ $(document).ready(function(){
         	$( '.overlay' ).css('background', 'transparent');
     	}
   	);
-
+    
+    var topGazeElements;
     $( "a[class='menu-item red']" ).click(function() {
-        var topGazeElements = $.topGazeElement(5);
+        topGazeElements = $.topGazeElement(5);
         for (var i = 0; i < topGazeElements.length; i++){
           topGazeElements[i].css('color','red');    
         }
     });
-
+    $( "a[class='menu-item green']" ).click(function() {
+      if(topGazeElements)
+        for (var i = 0; i < topGazeElements.length; i++){
+          topGazeElements[i].css('color','black');    
+        }
+    });
 });

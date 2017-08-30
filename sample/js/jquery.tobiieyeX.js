@@ -34,15 +34,11 @@
         if($.checkFunctionArgument("eyeIn",act)==false)
             return
 
-        var counter = 1;
-        if(threshold)
-            counter = threshold;
-
         var gazeObject = new GazeObject(this, act);        
         var rect = gazeObject.$element[0].getBoundingClientRect();
         var retBorder = [rect.left+ document.body.scrollLeft,rect.right+ document.body.scrollLeft,rect.top+ document.body.scrollTop,rect.bottom+ document.body.scrollTop];
         gazeObject.border = retBorder;
-        gazeObject.inThreshold = counter;
+        gazeObject.inThreshold = $.setThresholdValue(threshold);;
         gazeObjectList.push(gazeObject);
 
     };
@@ -72,16 +68,11 @@
 
         if($.checkFunctionArgument("eyeOut",act)==false)
             return;
-
-        var counter = 1;
-        if(threshold)
-            counter = threshold;
- 
-
+        
         for (var i = 0; i < gazeObjectList.length; i++){
             if(gazeObjectList[i].$element.is(this)){
                 gazeObjectList[i].eyeOutAction =  act;
-                gazeObjectList[i].outThreshold = counter;
+                gazeObjectList[i].outThreshold = $.setThresholdValue(threshold);;
                 return;     
             }
         }
@@ -92,7 +83,7 @@
         
         gazeObject.border = retBorder;
         gazeObject.eyeOutAction = act;
-        gazeObject.outThreshold = counter;
+        gazeObject.outThreshold = $.setThresholdValue(threshold);;
         gazeObjectList.push(gazeObject);
     };
 
@@ -126,6 +117,11 @@
                 return false;
             }
             return true;
+        },
+        setThresholdValue(threshold){
+            if(threshold)
+                return threshold;
+            return 1;
         } 
     })
 

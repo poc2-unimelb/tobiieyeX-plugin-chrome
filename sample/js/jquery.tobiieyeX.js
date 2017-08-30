@@ -22,10 +22,12 @@
     }
     var outWindowActionList = [];
     var outWindowObject = function(act) {
-        this.outWindowAction = act
+        this.outWindowAction = act,
+        this.outWindowThreshold = 1
     }
 
     var windowState = 'in';
+    var outWindowCounter = 0;
     var gethint = false;
     var hintTime = 3000;
 
@@ -68,7 +70,7 @@
 
         if($.checkFunctionArgument("eyeOut",act)==false)
             return;
-        
+
         for (var i = 0; i < gazeObjectList.length; i++){
             if(gazeObjectList[i].$element.is(this)){
                 gazeObjectList[i].eyeOutAction =  act;
@@ -96,13 +98,15 @@
         suspendActionList.push(suspendObj);
     };
 
-    $.eyeOutWindow = function(act) {
+    $.eyeOutWindow = function(act,threshold) {
 
         if($.checkFunctionArgument("eyeOutWindow",act)==false)
             return;
 
-        var OutWindowObj = new outWindowObject(act);    
+        var OutWindowObj = new outWindowObject(act);
+        OutWindowObj.outWindowThreshold = $.setThresholdValue(threshold);    
         outWindowActionList.push(OutWindowObj);
+
     };
     $.eyehint = function(sec) {
         hintTime = sec;
@@ -136,14 +140,11 @@
 
                         if(msg.data.location){
                             $.locateGazePoint(msg.data.location);
-                            //$.checkWithinWindow(msg.data.location);
+                            $.checkWithinWindow(msg.data.location);
                         }
                         
                         if(msg.data.suspend)
                             $.suspending();
-
-                        if(msg.data.outWindow)
-                            $.checkWithinWindow();
 
                         if(msg.data.backWindow && hintTime)
                             $.hint(msg.data.backWindow);
@@ -198,21 +199,32 @@
                 }
             }
         },
-        checkWithinWindow: function() {
-            // console.log(windowState);
-            // var offset = 500;
-            // var left   = document.body.scrollLeft - offset;
-            // var right  = document.body.scrollLeft + window.innerWidth + offset;
-            // var top    = document.body.scrollTop - offset;  
-            // var bottom = document.body.scrollTop + window.innerHeight + offset;
+        checkWithinWindow: function(gazepoint) {
             
-            // if(windowState=='in' && (gazepoint.x < left || gazepoint.x > right || gazepoint.y < top || gazepoint.y > bottom)){
-            //     windowState='out';
+            var left   = document.body.scrollLeft;
+            var right  = document.body.scrollLeft + window.innerWidth;
+            var top    = document.body.scrollTop;  
+            var bottom = document.body.scrollTop + window.innerHeight;
+            
+            if(gazepoint.x < left || gazepoint.x > right || gazepoint.y < top || gazepoint.y > bottom){
+                if(windowState=='in'){
+                    windowState='out';
+                    outWindowCounter = 1;
+                }
+                else
+                    outWindowCounter+=1;
+            }
+            else{
+                windowState = 'in';
+                outWindowCounter = 0;
+            }
+
+
+            if(windowState=='out'){
                 for (var i = 0; i < outWindowActionList.length; i++)
-                    outWindowActionList[i].outWindowAction();
-            // }
-            // else
-            //     windowState = 'in';
+                    if(outWindowCounter == outWindowActionList[i].outWindowThreshold)
+                        outWindowActionList[i].outWindowAction();
+            }
 
         },
         suspending: function(){

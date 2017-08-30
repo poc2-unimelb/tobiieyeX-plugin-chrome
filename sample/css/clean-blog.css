@@ -362,3 +362,139 @@ footer {
    height: 100%;
    width: 100%;
 }
+
+*,
+*:before,
+*:after{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+
+
+.annotag{
+  position: absolute;
+  top: 50px; left: 50px;
+  padding: 2.5px;
+  background: #f4f4f4;
+  border: 10px solid #006899;
+  transform: translateX(-35px) translateY(-10px);
+  transform-origin: 50% 50%;
+  border-radius: 50%;
+  opacity: .25;
+  cursor: pointer;
+  transition: all 150ms linear,
+    background 1.5s ease-out;
+  backface-visibility: hidden;
+}
+
+.annotag:hover{
+  opacity: .75;
+}
+
+.annotag.open{
+  border: 0;
+  border-radius: 50%;
+  min-height: 100px;
+  background:#d8d6d6;
+  min-width: 50px;
+  padding: 4px;
+  border:5px solid #006899;
+  border-radius:0 10px 10px 10px;
+  transform:translateX(0px);
+  opacity:1;
+}
+
+.annotag div{
+  display: none;
+}
+
+.annotag.open div{
+  display: block;
+  position: relative;
+  z-index: 1;
+  font-size: 14px;
+  font-family: "HelveticaNeue-Light", 
+    "Helvetica Neue Light", Helvetica,
+    Arial;
+  letter-spacing: 1px;
+  line-height: 18px;
+  width: 100%;
+  height: 100%;
+  padding: 5px;
+  border: 0;
+  color: #302d2d;
+  background: rgba(255,255,255,0);
+  transition: background 100ms linear;
+  border-radius: 0 0 0 4px;
+}
+
+.wordtitle{
+font-size: 12px;
+font-style: italic;
+}
+.word{
+font-size: 18px;
+font-weight: bold;
+}
+
+.annotag div:focus{
+  background: rgba(255,255,255,.15);
+  outline: none;
+}
+
+.annotag:before{
+  content: '';
+  display: block;
+  position: absolute;
+  z-index: -1;
+  top:-5px; left:50px;
+  width: 0px;
+  height: 0px;
+  border-style: solid;
+  border-width: 0;
+  border-color: transparent;
+  border-right-color: inherit;
+  transition: all 100ms ease-out;
+  transition-delay:150ms;
+}
+
+.annotag.open:before{
+  content: '';
+  display: block;
+  position: absolute;
+  top:-5px; left:-28px;
+  width: 0px;
+  height: 0px;
+  border-style: solid;
+  border-width: 0 25px 15px 0;
+  border-color: transparent;
+  border-right-color: inherit;
+}
+
+.annotag.open:after{
+  content: '';
+  display: block;
+  position: absolute;
+  bottom: 5px; right: 5px;
+  height: 0; width: 0;
+  border-style: solid;
+  border-width: 5px;
+  border-color: #f4f4f4;
+  border-radius: 50%;
+  z-index: 0;
+}
+
+::-webkit-scrollbar {
+  width: 3px;
+}
+
+::-webkit-scrollbar-track {
+  background: #222;
+  border-radius: 10px; 
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,.15);
+}

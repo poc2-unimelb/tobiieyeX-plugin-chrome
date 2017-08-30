@@ -14,7 +14,8 @@
         this.outCounter = 0,
         this.outThreshold = 1,
         this.inCounter = 0,
-        this.inThreshold = 1
+        this.inThreshold = 1,
+        this.totalInCounter = 0
     }
     var suspendActionList = [];
     var suspendObject = function(act) {
@@ -113,7 +114,33 @@
         gethint = true;
     };
 
+    $.topGazeElement = function(rank) {
+        var sortable = [];
 
+        for (var i = 0; i < gazeObjectList.length; i++){
+            sortable.push(gazeObjectList[i]);
+        }
+        sortable.sort(function(a, b) {
+            return b.totalInCounter - a.totalInCounter;
+        });
+
+        var elements = [];
+        var borders = [];
+        for (var i = 0; elements.length < rank && i < sortable.length; i++){
+            var unique = true;
+            for(var j=0;j<elements.length;j++) 
+                if(Math.abs(borders[j][0]-sortable[i].border[0])<0.01&&Math.abs(borders[j][3]-sortable[i].border[3])<0.01){
+                    unique = false;
+                    break;
+                }
+            if(unique){
+                elements.push(sortable[i].$element);
+                borders.push(sortable[i].border)
+            }   
+        }
+
+        return elements;
+    };
     $.extend({
         checkFunctionArgument(func,act){
             if (typeof act != 'function') { // make sure the callback is a function
@@ -160,6 +187,7 @@
 
                     if(gazepoint.x>=Objectborder[0]  && gazepoint.x <= Objectborder[1]){
                         if(gazepoint.y>=Objectborder[2]  && gazepoint.y <= Objectborder[3]){
+                            gazeObjectList[i].totalInCounter +=1;
                             if(gazeObjectList[i].state == 'out'){
                                 gazeObjectList[i].inCounter = 1;
                                 gazeObjectList[i].state = 'in';

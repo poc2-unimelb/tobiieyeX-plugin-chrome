@@ -141,6 +141,13 @@
 
         return elements;
     };
+
+
+    $(document).mousemove(function(e) {
+        var point = {x:e.pageX,y:e.pageY};
+        $(document).trigger('gazePoint',point);
+    });
+
     $.extend({
         checkFunctionArgument(func,act){
             if (typeof act != 'function') { // make sure the callback is a function
@@ -155,6 +162,7 @@
             return 1;
         } 
     })
+
 
 
     $.extend({

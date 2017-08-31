@@ -89,4 +89,55 @@ $(document).ready(function(){
           topGazeElements[i].css('color','black');    
         }
     });
+
+    window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
+                               window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+
+    var ctx = get('canvas');
+    var autoUpdata = true;
+
+    ctx.width  = $(document).width();
+    ctx.height = $(document).height();
+
+    function get(id) {
+        return document.getElementById(id);
+    }
+    
+    var gazeData = [];
+    var heat = simpleheat('canvas').data(gazeData).max(18),
+    frame;
+
+    function draw() {
+        heat.draw();
+        frame = null;
+    }
+    
+    $(document).bind('gazePoint',updateGazeDate);
+
+    $( "a[class='menu-item blue']" ).click(function() {
+        $('canvas').css('z-index','100');  
+        draw();
+    });
+    $( "a[class='menu-item purple']" ).click(function() {
+        if(autoUpdata){
+          autoUpdata = false;
+          $(document).bind('gazePoint',updateHeatdata);
+        }
+        else{
+          autoUpdata = true;
+          $(document).unbind('gazePoint',updateHeatdata);
+        }
+    });
+
+    function updateGazeDate(evt, point){
+      var gazePoint = [point.x,point.y,1];
+      gazeData.push(gazePoint);
+    }
+
+    function updateHeatdata(evt, point) {
+        var gazePoint = [point.x,point.y,1];
+        heat.add(gazePoint);
+        frame = frame || window.requestAnimationFrame(draw);
+    };
+
 });

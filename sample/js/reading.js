@@ -102,7 +102,7 @@ $(document).ready(function(){
     function get(id) {
         return document.getElementById(id);
     }
-    
+
     var gazeData = [];
     var heat = simpleheat('canvas').data(gazeData).max(18),
     frame;
@@ -116,9 +116,12 @@ $(document).ready(function(){
 
     $( "a[class='menu-item blue']" ).click(function() {
         $('canvas').css('z-index','100');  
+        heat.data(gazeData);
         draw();
     });
     $( "a[class='menu-item purple']" ).click(function() {
+        $('canvas').css('z-index','100');  
+
         if(autoUpdata){
           autoUpdata = false;
           $(document).bind('gazePoint',updateHeatdata);
@@ -128,6 +131,17 @@ $(document).ready(function(){
           $(document).unbind('gazePoint',updateHeatdata);
         }
     });
+
+    $( "a[class='menu-item orange']" ).click(function() {
+        autoUpdata = true;
+        $(document).unbind('gazePoint',updateHeatdata);
+        heat.clear();
+        gazeData=[];
+        draw();
+        $('canvas').css('z-index','-1');  
+
+    });
+
 
     function updateGazeDate(evt, point){
       var gazePoint = [point.x,point.y,1];
@@ -139,5 +153,6 @@ $(document).ready(function(){
         heat.add(gazePoint);
         frame = frame || window.requestAnimationFrame(draw);
     };
+
 
 });

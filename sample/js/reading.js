@@ -112,7 +112,7 @@ $(document).ready(function(){
         frame = null;
     }
     
-    $(document).bind('gazePoint',updateGazeDate);
+    $(document).bind('gazePointUpdate',updateGazeDate);
 
     $( "a[class='menu-item blue']" ).click(function() {
         $('canvas').css('z-index','100');  
@@ -124,17 +124,17 @@ $(document).ready(function(){
 
         if(autoUpdata){
           autoUpdata = false;
-          $(document).bind('gazePoint',updateHeatdata);
+          $(document).bind('gazePointUpdate',updateHeatdata);
         }
         else{
           autoUpdata = true;
-          $(document).unbind('gazePoint',updateHeatdata);
+          $(document).unbind('gazePointUpdate',updateHeatdata);
         }
     });
 
     $( "a[class='menu-item orange']" ).click(function() {
         autoUpdata = true;
-        $(document).unbind('gazePoint',updateHeatdata);
+        $(document).unbind('gazePointUpdate',updateHeatdata);
         heat.clear();
         gazeData=[];
         draw();

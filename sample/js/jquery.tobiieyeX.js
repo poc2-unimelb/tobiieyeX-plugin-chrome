@@ -142,12 +142,6 @@
         return elements;
     };
 
-
-    $(document).mousemove(function(e) {
-        var point = {x:e.pageX,y:e.pageY};
-        $(document).trigger('gazePoint',point);
-    });
-
     $.extend({
         checkFunctionArgument(func,act){
             if (typeof act != 'function') { // make sure the callback is a function
@@ -176,6 +170,8 @@
                         if(msg.data.location){
                             $.locateGazePoint(msg.data.location);
                             $.checkWithinWindow(msg.data.location);
+
+                            $(document).trigger('gazePointUpdate',msg.data.location);
                         }
                         
                         if(msg.data.suspend)

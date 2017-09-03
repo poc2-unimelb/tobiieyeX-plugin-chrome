@@ -806,3 +806,9 @@ top:0;
 left:0;
 z-index:-1;
 }
+
+#circleCounter {
+  margin: 20px;
+  width: 200px;
+  height: 200px;
+}

@@ -155,4 +155,30 @@ $(document).ready(function(){
     };
 
 
+    var circleCounter =  get('circleCounter');
+
+
+    // progressbar.js@1.0.0 version is used
+    // Docs: http://progressbarjs.readthedocs.org/en/1.0.0/
+
+    var bar = new ProgressBar.Circle(circleCounter, {
+      strokeWidth: 6,
+      easing: 'easeInOut',
+      duration: 5000,
+      color: '#FFEA82',
+      trailColor: '#eee',
+      trailWidth: 1,
+      svgStyle: null,
+      from: { color: '#FFEA82' ,a:0},
+      to: { color: '#f44242' ,a:1},
+      step: function(state, circle) {
+        circle.path.setAttribute('stroke', state.color);
+      }
+    });
+
+    bar.animate(1.0, {
+        duration: 5000
+    }, function() {
+        console.log('Animation has finished');
+    });
 });

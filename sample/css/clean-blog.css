@@ -501,13 +501,13 @@ font-weight: bold;
 .menu-item{
    background: #EEEEEE;
    border-radius: 100%;
-   width: 80px;
-   height: 80px;
+   width: 150px;
+   height: 150px;
    margin-left: -40px;
    position: absolute;
    color: #FFFFFF;
    text-align: center;
-   line-height: 80px;
+   line-height: 150px;
    -webkit-transform: translate3d(0, 0, 0);
    transform: translate3d(0, 0, 0);
    -webkit-transition: -webkit-transform ease-out 200ms;
@@ -519,15 +519,22 @@ font-weight: bold;
 .menu {
    margin: auto;
    position: fixed;
-   top: 0;
-   right: 100px;
-   width: 80px;
-   height: 80px;
+   width: 100px;
+   height: 100px;
    text-align: center;
    box-sizing: border-box;
    font-size: 26px;
    z-index:101;
 }
+.menu-right{
+   top: 0;
+   right: 150px;
+}
+.menu-left{
+   top: 0;
+   left: 50px;
+}
+
 /* .menu-item {
    transition: all 0.1s ease 0s;
 } */
@@ -549,7 +556,7 @@ font-weight: bold;
 }
 
 .green {
-   top:250px;
+   top:400px;
    background-color: #70CC72;
    box-shadow: 3px 3px 0 0 rgba(0, 0, 0, 0.14);
    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.12);
@@ -561,7 +568,7 @@ font-weight: bold;
 }
 
 .red {
-   top:400px;
+   top:700px;
    background-color: #FE4365;
    box-shadow: 3px 3px 0 0 rgba(0, 0, 0, 0.14);
    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.12);
@@ -573,7 +580,7 @@ font-weight: bold;
 }
 
 .purple {
-   top:550px;
+   top:100px;
    background-color: #C49CDE;
    box-shadow: 3px 3px 0 0 rgba(0, 0, 0, 0.14);
    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.12);
@@ -585,7 +592,7 @@ font-weight: bold;
 }
 
 .orange {
-   top:700px;
+   top:400px;
    background-color: #FC913A;
    box-shadow: 3px 3px 0 0 rgba(0, 0, 0, 0.14);
    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.12);
@@ -597,7 +604,7 @@ font-weight: bold;
 }
 
 .lightblue {
-   top:850px;
+   top:700px;
    background-color: #62C2E4;
    box-shadow: 3px 3px 0 0 rgba(0, 0, 0, 0.14);
    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.12);
@@ -617,7 +624,7 @@ z-index:-1;
 
 #circleCounter {
   margin: 0px;
-  width: 100px;
-  height: 100px;
+  width: 170px;
+  height: 170px;
   position: fixed;
 }

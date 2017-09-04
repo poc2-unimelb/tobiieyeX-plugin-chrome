@@ -191,7 +191,8 @@ $(document).ready(function(){
                         duration: 0
                       }); 
                       circleCounter.style.display = 'none';
-                      $( "a[class='menu-item lightblue']" ).click();
+                      var curObj = $.currentGazeElement();
+                      curObj.css('color','red');
                   });
 
             },2

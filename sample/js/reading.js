@@ -141,7 +141,9 @@ $(document).ready(function(){
         $('canvas').css('z-index','-1');  
 
     });
-
+    $( "a[class='menu-item lightblue']" ).click(function() {
+        $.currentGazeElement();
+    });
 
     function updateGazeDate(evt, point){
       var gazePoint = [point.x,point.y,1];

@@ -32,6 +32,8 @@
     var gethint = false;
     var hintTime = 3000;
 
+    var buffer = gazeObjectBuffer(10);
+
     $.fn.eyeIn = function(act,threshold) {
 
         if($.checkFunctionArgument("eyeIn",act)==false)
@@ -41,7 +43,7 @@
         var rect = gazeObject.$element[0].getBoundingClientRect();
         var retBorder = [rect.left+ document.body.scrollLeft,rect.right+ document.body.scrollLeft,rect.top+ document.body.scrollTop,rect.bottom+ document.body.scrollTop];
         gazeObject.border = retBorder;
-        gazeObject.inThreshold = $.setThresholdValue(threshold);;
+        gazeObject.inThreshold = $.setThresholdValue(threshold);
         gazeObjectList.push(gazeObject);
 
     };
@@ -75,7 +77,7 @@
         for (var i = 0; i < gazeObjectList.length; i++){
             if(gazeObjectList[i].$element.is(this)){
                 gazeObjectList[i].eyeOutAction =  act;
-                gazeObjectList[i].outThreshold = $.setThresholdValue(threshold);;
+                gazeObjectList[i].outThreshold = $.setThresholdValue(threshold);
                 return;     
             }
         }
@@ -89,6 +91,11 @@
         gazeObject.outThreshold = $.setThresholdValue(threshold);;
         gazeObjectList.push(gazeObject);
     };
+
+    $.currentGazeElement = function(){
+
+ 
+    }
 
     $.eyeSuspend = function(act) {
 
@@ -125,19 +132,9 @@
         });
 
         var elements = [];
-        var borders = [];
-        for (var i = 0; elements.length < rank && i < sortable.length; i++){
-            var unique = true;
-            for(var j=0;j<elements.length;j++) 
-                if(Math.abs(borders[j][0]-sortable[i].border[0])<0.01&&Math.abs(borders[j][3]-sortable[i].border[3])<0.01){
-                    unique = false;
-                    break;
-                }
-            if(unique){
-                elements.push(sortable[i].$element);
-                borders.push(sortable[i].border)
-            }   
-        }
+
+        for (var i = 0; elements.length < rank && i < sortable.length; i++)
+            elements.push(sortable[i].$element);
 
         return elements;
     };
@@ -154,7 +151,7 @@
             if(threshold)
                 return threshold;
             return 1;
-        } 
+        }
     })
 
 
@@ -183,6 +180,7 @@
                 }, false);
         },
         locateGazePoint: function(gazepoint) {
+            var visitedElement = {};
             for (var i = 0; i < gazeObjectList.length; i++){
                 if(gazeObjectList[i].border.length>0){
 
@@ -191,7 +189,13 @@
 
                     if(gazepoint.x>=Objectborder[0]  && gazepoint.x <= Objectborder[1]){
                         if(gazepoint.y>=Objectborder[2]  && gazepoint.y <= Objectborder[3]){
-                            gazeObjectList[i].totalInCounter +=1;
+                            
+                            if(!visitedElement[gazeObjectList[i].$element[0].outerHTML+gazeObjectList[i].border]){
+                                gazeObjectList[i].totalInCounter +=1;
+                                buffer.push(gazeObjectList[i].$element);
+                                visitedElement[gazeObjectList[i].$element[0].outerHTML+gazeObjectList[i].border] = true;
+                            }
+
                             if(gazeObjectList[i].state == 'out'){
                                 gazeObjectList[i].inCounter = 1;
                                 gazeObjectList[i].state = 'in';
@@ -273,5 +277,17 @@
     })
     $.connectTobii();
 
+    function gazeObjectBuffer(length) {
+        var array = [];
+
+          array.push = function () {
+              if (this.length >= length) {
+                  this.shift();
+              }
+              return Array.prototype.push.apply(this,arguments);
+          }
+
+        return array;
+    }
 
 })(jQuery, window, document);

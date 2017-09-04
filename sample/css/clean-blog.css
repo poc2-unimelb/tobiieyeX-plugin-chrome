@@ -616,7 +616,8 @@ z-index:-1;
 }
 
 #circleCounter {
-  margin: 20px;
-  width: 200px;
-  height: 200px;
+  margin: 0px;
+  width: 100px;
+  height: 100px;
+  position: fixed;
 }

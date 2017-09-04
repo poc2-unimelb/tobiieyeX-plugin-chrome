@@ -1,5 +1,22 @@
 $(document).ready(function(){
 
+    var circleCounter =  get('circleCounter');
+    var bar = new ProgressBar.Circle(circleCounter, {
+      strokeWidth: 6,
+      easing: 'easeInOut',
+      duration: 5000,
+      color: '#FFEA82',
+      trailColor: '#eee',
+      trailWidth: 1,
+      svgStyle: null,
+      from: { color: '#FFEA82' ,a:0},
+      to: { color: '#f44242' ,a:1},
+      step: function(state, circle) {
+        circle.path.setAttribute('stroke', state.color);
+      }
+    });
+    circleCounter.style.display = 'none';
+
     $('p').css('font-size','30px');
     $("div[class='annotag open']").hide();
 
@@ -157,31 +174,35 @@ $(document).ready(function(){
         frame = frame || window.requestAnimationFrame(draw);
     };
 
+    $( "a[class='menu-item lightblue']" ).eyeIn(
+            function() {
+                  $( "a[class='menu-item lightblue']" ).hover();
 
-    var circleCounter =  get('circleCounter');
+                  var rect = $( "a[class='menu-item lightblue']" )[0].getBoundingClientRect();
+                  circleCounter.style.top = rect.top-10 +'px';
+                  circleCounter.style.left = rect.left-10 +'px';
+                  circleCounter.style.display = 'inline';
+                  var curObj = $.currentGazeElement(); 
 
+                  bar.animate(1.0, {
+                      duration: 1000
+                  }, function() {                 
+                      bar.animate(0,{
+                        duration: 0
+                      }); 
+                      circleCounter.style.display = 'none';
+                      $( "a[class='menu-item lightblue']" ).click();
+                  });
 
-    // progressbar.js@1.0.0 version is used
-    // Docs: http://progressbarjs.readthedocs.org/en/1.0.0/
+            },2
+    );
 
-    var bar = new ProgressBar.Circle(circleCounter, {
-      strokeWidth: 6,
-      easing: 'easeInOut',
-      duration: 5000,
-      color: '#FFEA82',
-      trailColor: '#eee',
-      trailWidth: 1,
-      svgStyle: null,
-      from: { color: '#FFEA82' ,a:0},
-      to: { color: '#f44242' ,a:1},
-      step: function(state, circle) {
-        circle.path.setAttribute('stroke', state.color);
-      }
-    });
+    $( "a[class='menu-item lightblue']" ).eyeOut(
+        function(){
+            bar.animate(0,{
+              duration: 0
+            });            
+            circleCounter.style.display = 'none';
+        },5);
 
-    bar.animate(1.0, {
-        duration: 5000
-    }, function() {
-        console.log('Animation has finished');
-    });
 });

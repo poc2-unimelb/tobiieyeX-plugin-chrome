@@ -32,7 +32,7 @@
     var gethint = false;
     var hintTime = 3000;
 
-    var buffer = gazeObjectBuffer(10);
+    var buffer = gazeObjectBuffer(100);
 
     $.fn.eyeIn = function(act,threshold) {
 
@@ -94,7 +94,30 @@
 
     $.currentGazeElement = function(){
 
- 
+        var accumulator = { };
+        for (var i = 0; i < buffer.length; i++)
+           accumulator[buffer[i].border] = (accumulator[buffer[i].border] || 0) + 1;
+        
+
+        var curBorder=null,maxVal=0;
+
+        for (var key in accumulator) 
+          if(accumulator[key]>maxVal){
+            maxVal = accumulator[key];
+            curBorder = key;
+          }
+
+        if(curBorder==null)
+            return;
+
+        var curObj;
+        for (var i = 0; i < buffer.length; i++)
+          if(buffer[i].border == curBorder){
+            curObj = buffer[i].$element;
+            break;
+          }
+        
+        return curObj;
     }
 
     $.eyeSuspend = function(act) {
@@ -190,10 +213,10 @@
                     if(gazepoint.x>=Objectborder[0]  && gazepoint.x <= Objectborder[1]){
                         if(gazepoint.y>=Objectborder[2]  && gazepoint.y <= Objectborder[3]){
                             
-                            if(!visitedElement[gazeObjectList[i].$element[0].outerHTML+gazeObjectList[i].border]){
+                            if(!visitedElement[gazeObjectList[i].border]){
                                 gazeObjectList[i].totalInCounter +=1;
-                                buffer.push(gazeObjectList[i].$element);
-                                visitedElement[gazeObjectList[i].$element[0].outerHTML+gazeObjectList[i].border] = true;
+                                buffer.push(gazeObjectList[i]);
+                                visitedElement[gazeObjectList[i].border] = true;
                             }
 
                             if(gazeObjectList[i].state == 'out'){

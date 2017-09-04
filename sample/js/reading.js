@@ -142,7 +142,8 @@ $(document).ready(function(){
 
     });
     $( "a[class='menu-item lightblue']" ).click(function() {
-        $.currentGazeElement();
+        var curObj = $.currentGazeElement();
+        curObj.css('color','red');
     });
 
     function updateGazeDate(evt, point){

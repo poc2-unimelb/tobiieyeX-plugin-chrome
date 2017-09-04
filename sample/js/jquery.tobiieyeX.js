@@ -92,12 +92,18 @@
         gazeObjectList.push(gazeObject);
     };
 
-    $.currentGazeElement = function(){
+    $.currentGazeElement = function(elementTag){
 
-        var accumulator = { };
-        for (var i = 0; i < buffer.length; i++)
-           accumulator[buffer[i].border] = (accumulator[buffer[i].border] || 0) + 1;
-        
+        var accumulator = {};
+        if(elementTag){
+            for (var i = 0; i < buffer.length; i++)
+                if(buffer[i].$element.is(elementTag))
+                    accumulator[buffer[i].border] = (accumulator[buffer[i].border] || 0) + 1;
+        }
+        else{
+            for (var i = 0; i < buffer.length; i++)
+                accumulator[buffer[i].border] = (accumulator[buffer[i].border] || 0) + 1;
+        }
 
         var curBorder=null,maxVal=0;
 

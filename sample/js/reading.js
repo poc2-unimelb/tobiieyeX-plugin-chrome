@@ -176,22 +176,20 @@ $(document).ready(function(){
 
     $( "a[class='menu-item lightblue']" ).eyeIn(
             function() {
-                  $( "a[class='menu-item lightblue']" ).hover();
-
+                  
+                 
                   var rect = $( "a[class='menu-item lightblue']" )[0].getBoundingClientRect();
                   circleCounter.style.top = rect.top-10 +'px';
                   circleCounter.style.left = rect.left-10 +'px';
                   circleCounter.style.display = 'inline';
-                  var curObj = $.currentGazeElement(); 
-
+                  var curObj = $.currentGazeElement('.overlay');
                   bar.animate(1.0, {
                       duration: 1000
                   }, function() {                 
                       bar.animate(0,{
                         duration: 0
                       }); 
-                      circleCounter.style.display = 'none';
-                      var curObj = $.currentGazeElement();
+                      circleCounter.style.display = 'none';                  
                       curObj.css('color','red');
                   });
 

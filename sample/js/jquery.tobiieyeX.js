@@ -171,7 +171,7 @@
                             $.locateGazePoint(msg.data.location);
                             $.checkWithinWindow(msg.data.location);
 
-                            $(document).trigger('gazePointUpdate',msg.data.location);
+                            $(document).trigger('gazePointMove',msg.data.location);
                         }
                         
                         if(msg.data.suspend)

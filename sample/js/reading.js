@@ -47,13 +47,6 @@ $(document).ready(function(){
 
           $( this ).eyeIn(
             function() {
-                var utterance = new SpeechSynthesisUtterance(this.$element.text());
-                speechSynthesis.speak(utterance);
-            },30
-          );
-
-          $( this ).eyeIn(
-            function() {
 
                 var border = this.border;
                 var text = this.$element.text();
@@ -158,9 +151,11 @@ $(document).ready(function(){
         $('canvas').css('z-index','-1');  
 
     });
+
     $( "a[class='menu-item lightblue']" ).click(function() {
         var curObj = $.currentGazeElement();
-        curObj.css('color','red');
+        if(curObj)
+          curObj.css('color','red');
     });
 
     function updateGazeDate(evt, point){
@@ -174,34 +169,74 @@ $(document).ready(function(){
         frame = frame || window.requestAnimationFrame(draw);
     };
 
+    $( "a[class='menu-item green']" ).eyeIn(
+          function() {
+
+                changeBackgroundColor("a[class='menu-item green']",'#EEEEEE','#70CC72');
+                setCircleBartoPosition("a[class='menu-item green']");
+
+                var curObj = $.currentGazeElement('.overlay');
+
+                bar.animate(1.0, {
+                    duration: 1000
+                }, function() {    
+                  changeBackgroundColor("a[class='menu-item green']",'#ffffff','#EEEEEE');             
+                    setCircleBartoDefault();
+                    if(curObj){
+                      console.log(curObj);                  
+                      curObj.css('color','red');
+                      var utterance = new SpeechSynthesisUtterance(curObj.text());
+                      speechSynthesis.speak(utterance);
+                    }
+                });
+            },2
+    );
+
+    $( "a[class='menu-item green']" ).eyeOut(
+        function(){
+            changeBackgroundColor("a[class='menu-item green']",'#70CC72','#EEEEEE');
+            setCircleBartoDefault();
+        },5);
+
     $( "a[class='menu-item lightblue']" ).eyeIn(
             function() {
-                  
-                 
-                  var rect = $( "a[class='menu-item lightblue']" )[0].getBoundingClientRect();
-                  circleCounter.style.top = rect.top-10 +'px';
-                  circleCounter.style.left = rect.left-10 +'px';
-                  circleCounter.style.display = 'inline';
-                  var curObj = $.currentGazeElement('.overlay');
+
+                  changeBackgroundColor("a[class='menu-item lightblue']",'#EEEEEE','#62C2E4');
+                  setCircleBartoPosition("a[class='menu-item lightblue']");
+
                   bar.animate(1.0, {
                       duration: 1000
-                  }, function() {                 
-                      bar.animate(0,{
-                        duration: 0
-                      }); 
-                      circleCounter.style.display = 'none';                  
-                      curObj.css('color','red');
+                  }, function() {    
+                      changeBackgroundColor("a[class='menu-item lightblue']",'#ffffff','#EEEEEE');             
+                      setCircleBartoDefault();
+                      $( '.overlay' ).css('color','');
                   });
-
             },2
     );
 
     $( "a[class='menu-item lightblue']" ).eyeOut(
         function(){
-            bar.animate(0,{
-              duration: 0
-            });            
-            circleCounter.style.display = 'none';
+            changeBackgroundColor("a[class='menu-item lightblue']",'#62C2E4','#EEEEEE');
+            setCircleBartoDefault();
         },5);
+
+    function changeBackgroundColor(element,backgroundColor,color){
+      $(element).css('background',backgroundColor);
+      $(element).css('color',color);
+    }
+
+    function setCircleBartoDefault(){
+        bar.animate(0,{
+          duration: 0
+        });            
+        circleCounter.style.display = 'none';
+    }
+
+    function setCircleBartoPosition(element){
+      var rect = $(element)[0].getBoundingClientRect();
+      circleCounter.style.top = rect.top-10 +'px';
+      circleCounter.style.left = rect.left-10 +'px';
+      circleCounter.style.display = 'inline';
+    }
 
 });

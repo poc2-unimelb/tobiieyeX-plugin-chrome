@@ -42,6 +42,7 @@
         var gazeObject = new GazeObject(this, act);        
         var rect = gazeObject.$element[0].getBoundingClientRect();
         var retBorder = [rect.left+ document.documentElement.scrollLeft,rect.right+ document.documentElement.scrollLeft,rect.top+ document.documentElement.scrollTop,rect.bottom+ document.documentElement.scrollTop];
+
         gazeObject.border = retBorder;
         gazeObject.inThreshold = $.setThresholdValue(threshold);
         gazeObjectList.push(gazeObject);
@@ -213,7 +214,10 @@
             for (var i = 0; i < gazeObjectList.length; i++){
                 if(gazeObjectList[i].border.length>0){
 
-                    Objectborder = gazeObjectList[i].border
+                    var rect = gazeObjectList[i].$element[0].getBoundingClientRect();
+                    var Objectborder = [rect.left+ document.documentElement.scrollLeft,rect.right+ document.documentElement.scrollLeft,rect.top+ document.documentElement.scrollTop,rect.bottom+ document.documentElement.scrollTop];
+                    gazeObjectList[i].border = Objectborder;
+
                     var curState = gazeObjectList[i].state;
 
                     if(gazepoint.x>=Objectborder[0]  && gazepoint.x <= Objectborder[1]){

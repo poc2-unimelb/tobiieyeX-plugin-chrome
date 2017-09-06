@@ -21,6 +21,7 @@ $(document).ready(function(){
 
     $('p').css('font-size','30px');
     $("div[class='annotag open']").hide();
+    $("a[class='menu-item arrow']").hide();
 
     $('p').each(function(){
             var text = $(this).html().split(' '),
@@ -333,4 +334,37 @@ $(document).ready(function(){
         $(".wordsource2").text('');
     }
 
+    $("#buttomArea").eyeIn(
+      function(){
+        $("a[class='menu-item arrow']").show();
+      },5);
+
+    $("#buttomArea").eyeOut(
+      function(){
+        $("a[class='menu-item arrow']").hide();
+    },5);
+
+    $( "a[class='menu-item arrow']" ).eyeIn(
+            function() {
+
+                  changeBackgroundColor("a[class='menu-item arrow']",'#EEEEEE','#353333');
+                  setCircleBartoPosition("a[class='menu-item arrow']");
+
+                  bar.animate(1.0, {
+                      duration: 1000
+                  }, function() {    
+                      changeBackgroundColor("a[class='menu-item arrow']",'#ffffff','#EEEEEE');             
+                      setCircleBartoDefault();
+                      $('html, body').animate({
+                          scrollTop: $(window).scrollTop() + 200
+                      });
+                  });
+            },2
+    );
+
+    $( "a[class='menu-item arrow']" ).eyeOut(
+        function(){
+            changeBackgroundColor("a[class='menu-item arrow']",'#353333','#EEEEEE');
+            setCircleBartoDefault();
+        },5);
 });

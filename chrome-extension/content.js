@@ -31,7 +31,7 @@ port.onMessage.addListener(function(response) {
                 fadein(div);
 
             var position = {x : preX,y: preY};
-            
+                
                 window.postMessage({source: "content_script", 
                     secret_key: "S0cialNUI",backWindow: position}, "*");
             }
@@ -66,13 +66,12 @@ function initDiv(){
 function updateLocation(location){
 
 
-
+    
 	var chrId = document.getElementById('eyexmovingcircle');
 
     var barHeight = window.outerHeight - window.innerHeight;
-    var eyeY = location.y-10+document.body.scrollTop - window.screenY - barHeight;
-    var eyeX = location.x-10+document.body.scrollLeft  - window.screenX;
-
+    var eyeY = location.y-10+document.documentElement.scrollTop - window.screenY - barHeight;
+    var eyeX = location.x-10+document.documentElement.scrollLeft  - window.screenX;
 
     if (preX!=0 && preY!=0){
         eyeX = preX + ( eyeX - preX )*0.3;

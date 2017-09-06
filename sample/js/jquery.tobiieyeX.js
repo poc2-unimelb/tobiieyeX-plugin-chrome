@@ -41,7 +41,7 @@
 
         var gazeObject = new GazeObject(this, act);        
         var rect = gazeObject.$element[0].getBoundingClientRect();
-        var retBorder = [rect.left+ document.body.scrollLeft,rect.right+ document.body.scrollLeft,rect.top+ document.body.scrollTop,rect.bottom+ document.body.scrollTop];
+        var retBorder = [rect.left+ document.documentElement.scrollLeft,rect.right+ document.documentElement.scrollLeft,rect.top+ document.documentElement.scrollTop,rect.bottom+ document.documentElement.scrollTop];
         gazeObject.border = retBorder;
         gazeObject.inThreshold = $.setThresholdValue(threshold);
         gazeObjectList.push(gazeObject);
@@ -63,7 +63,7 @@
         }
 
         var rect = gazeObject.$element[0].getBoundingClientRect();
-        var retBorder = [rect.left+ document.body.scrollLeft,rect.right+ document.body.scrollLeft,rect.top+ document.body.scrollTop,rect.bottom+ document.body.scrollTop];
+        var retBorder = [rect.left+ document.documentElement.scrollLeft,rect.right+ document.documentElement.scrollLeft,rect.top+ document.documentElement.scrollTop,rect.bottom+ document.documentElement.scrollTop];
         gazeObject.border = retBorder;
         gazeObjectList.push(gazeObject);
 
@@ -84,7 +84,7 @@
 
         var gazeObject = new GazeObject(this, function(){});        
         var rect = gazeObject.$element[0].getBoundingClientRect();
-        var retBorder = [rect.left+ document.body.scrollLeft,rect.right+ document.body.scrollLeft,rect.top+ document.body.scrollTop,rect.bottom+ document.body.scrollTop];
+        var retBorder = [rect.left+ document.documentElement.scrollLeft,rect.right+ document.documentElement.scrollLeft,rect.top+ document.documentElement.scrollTop,rect.bottom+ document.documentElement.scrollTop];
         
         gazeObject.border = retBorder;
         gazeObject.eyeOutAction = act;
@@ -266,10 +266,10 @@
         },
         checkWithinWindow: function(gazepoint) {
             
-            var left   = document.body.scrollLeft;
-            var right  = document.body.scrollLeft + window.innerWidth;
-            var top    = document.body.scrollTop;  
-            var bottom = document.body.scrollTop + window.innerHeight;
+            var left   = document.documentElement.scrollLeft;
+            var right  = document.documentElement.scrollLeft + window.innerWidth;
+            var top    = document.documentElement.scrollTop;  
+            var bottom = document.documentElement.scrollTop + window.innerHeight;
             
             if(gazepoint.x < left || gazepoint.x > right || gazepoint.y < top || gazepoint.y > bottom){
                 if(windowState=='in'){

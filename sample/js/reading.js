@@ -336,7 +336,7 @@ $(document).ready(function(){
 
     $("#buttomArea").eyeIn(
       function(){
-        $("a[class='menu-item arrow']").show();
+        fadein($("a[class='menu-item arrow']")[0]);
       },5);
 
     $("#buttomArea").eyeOut(
@@ -367,4 +367,17 @@ $(document).ready(function(){
             changeBackgroundColor("a[class='menu-item arrow']",'#353333','#EEEEEE');
             setCircleBartoDefault();
         },5);
+
+    function fadein(element) {
+      var op = 0.1;  // initial opacity
+      element.style.display = 'block';
+      var timer = setInterval(function () {
+            if (op >= 1){
+                clearInterval(timer);
+            }
+            element.style.opacity = op;
+            element.style.filter = 'alpha(opacity=' + op * 100 + ")";
+            op += op * 0.1;
+        }, 10);
+    }
 });

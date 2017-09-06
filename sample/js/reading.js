@@ -53,7 +53,7 @@ $(document).ready(function(){
   	);
     
     $( "a[class='menu-item red']" ).click(function() {
-        var topGazeElements = $.topGazeElement(5);
+        var topGazeElements = $.topGazeElement(5,'.overlay');
         for (var i = 0; i < topGazeElements.length; i++){
           topGazeElements[i].css('color','red');    
         }
@@ -228,7 +228,7 @@ $(document).ready(function(){
                   }, function() {    
                       changeBackgroundColor("a[class='menu-item red']",'#ffffff','#EEEEEE');             
                       setCircleBartoDefault();
-                      var topGazeElements = $.topGazeElement(5);
+                      var topGazeElements = $.topGazeElement(5,'.overlay');
                       for (var i = 0; i < topGazeElements.length; i++){
                         topGazeElements[i].css('color','#FE4365');    
                       }

@@ -151,11 +151,16 @@
         gethint = true;
     };
 
-    $.topGazeElement = function(rank) {
+    $.topGazeElement = function(rank,elementTag) {
         var sortable = [];
-
-        for (var i = 0; i < gazeObjectList.length; i++){
-            sortable.push(gazeObjectList[i]);
+        if(elementTag){
+            for (var i = 0; i < gazeObjectList.length; i++)
+                if(gazeObjectList[i].$element.is(elementTag))
+                    sortable.push(gazeObjectList[i]);
+        }
+        else{
+            for (var i = 0; i < gazeObjectList.length; i++)
+                sortable.push(gazeObjectList[i]);          
         }
         sortable.sort(function(a, b) {
             return b.totalInCounter - a.totalInCounter;

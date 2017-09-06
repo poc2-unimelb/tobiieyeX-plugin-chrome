@@ -523,7 +523,7 @@ font-weight: bold;
    height: 100px;
    text-align: center;
    box-sizing: border-box;
-   font-size: 26px;
+   font-size: 50px;
    z-index:101;
 }
 .menu-right{
@@ -568,7 +568,7 @@ font-weight: bold;
 }
 
 .red {
-   top:700px;
+   top:100px;
    background-color: #FE4365;
    box-shadow: 3px 3px 0 0 rgba(0, 0, 0, 0.14);
    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.12);
@@ -580,7 +580,7 @@ font-weight: bold;
 }
 
 .purple {
-   top:100px;
+   top:400px;
    background-color: #C49CDE;
    box-shadow: 3px 3px 0 0 rgba(0, 0, 0, 0.14);
    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.12);
@@ -592,7 +592,7 @@ font-weight: bold;
 }
 
 .orange {
-   top:400px;
+   top:700px;
    background-color: #FC913A;
    box-shadow: 3px 3px 0 0 rgba(0, 0, 0, 0.14);
    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.12);

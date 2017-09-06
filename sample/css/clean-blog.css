@@ -430,7 +430,19 @@ footer {
   border-radius: 0 0 0 4px;
 }
 
-.wordtitle{
+.wordtitleMeaning{
+font-size: 12px;
+font-style: italic;
+}
+.wordtitleMeaning2{
+font-size: 12px;
+font-style: italic;
+}
+.wordtitleSource{
+font-size: 12px;
+font-style: italic;
+}
+.wordtitleSource2{
 font-size: 12px;
 font-style: italic;
 }
@@ -438,52 +450,17 @@ font-style: italic;
 font-size: 18px;
 font-weight: bold;
 }
-
+.wordsource{
+font-size: 9px;
+font-weight: italic;
+}
+.wordsource2{
+font-size: 9px;
+font-weight: italic;
+}
 .annotag div:focus{
   background: rgba(255,255,255,.15);
   outline: none;
-}
-
-.annotag:before{
-  content: '';
-  display: block;
-  position: absolute;
-  z-index: -1;
-  top:-5px; left:50px;
-  width: 0px;
-  height: 0px;
-  border-style: solid;
-  border-width: 0;
-  border-color: transparent;
-  border-right-color: inherit;
-  transition: all 100ms ease-out;
-  transition-delay:150ms;
-}
-
-.annotag.open:before{
-  content: '';
-  display: block;
-  position: absolute;
-  top:-5px; left:-28px;
-  width: 0px;
-  height: 0px;
-  border-style: solid;
-  border-width: 0 25px 15px 0;
-  border-color: transparent;
-  border-right-color: inherit;
-}
-
-.annotag.open:after{
-  content: '';
-  display: block;
-  position: absolute;
-  bottom: 5px; right: 5px;
-  height: 0; width: 0;
-  border-style: solid;
-  border-width: 5px;
-  border-color: #f4f4f4;
-  border-radius: 50%;
-  z-index: 0;
 }
 
 ::-webkit-scrollbar {

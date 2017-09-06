@@ -16,6 +16,7 @@ $(document).ready(function(){
       }
     });
     circleCounter.style.display = 'none';
+    var wordkey = '6403c2110633afe550102066b7d03b83d35feb1b3c26c2dae';
 
     $('p').css('font-size','30px');
     $("div[class='annotag open']").hide();
@@ -32,7 +33,6 @@ $(document).ready(function(){
     });
 
    $( '.overlay' ).each( function( index, element ){   
-
           $( this ).eyeIn(
             function() {
               this.$element.css('background', '#ffff99');          
@@ -44,40 +44,6 @@ $(document).ready(function(){
               this.$element.css('background', 'transparent');     
             },10
           );
-
-          $( this ).eyeIn(
-            function() {
-
-                var border = this.border;
-                var text = this.$element.text();
-
-                $.ajax({
-                     url:"https://glosbe.com/gapi/translate?from=eng&dest=zh&format=json&phrase="+text+"&pretty=true",
-                     dataType: 'jsonp', // Notice! JSONP <-- P (lowercase)
-                     success:function(json){
-                         if(json.result=='ok' && json.tuc && json.tuc[0] && json.tuc[0].phrase && json.tuc[0].meanings){
-                            $(".word").text(text);
-                            $(".wordmeaning").text(json.tuc[0].meanings[0].text)
-                            $(".wordtranslate").text(json.tuc[0].phrase.text);
-                            $("div[class='annotag open']").css("left",border[1]+10);
-                            $("div[class='annotag open']").css("top",border[3]);
-                            $("div[class='annotag open']").show();
-
-                            setInterval(function(){
-                              $("div[class='annotag open']").hide();
-                            },3000);
-
-                         }
-                         else
-                          console.log("translate error");
-                     },
-                     error:function(){
-                         console.log("glosbe error");
-                     }      
-                });
-            },30
-          );
-
     });
 
   	$.eyeSuspend(
@@ -168,6 +134,59 @@ $(document).ready(function(){
         heat.add(gazePoint);
         frame = frame || window.requestAnimationFrame(draw);
     };
+    $( "a[class='menu-item blue']" ).eyeIn(
+          function() {
+
+                changeBackgroundColor("a[class='menu-item blue']",'#EEEEEE','#669AE1');
+                setCircleBartoPosition("a[class='menu-item blue']");
+
+                var curObj = $.currentGazeElement('.overlay');
+
+                bar.animate(1.0, {
+                    duration: 1000
+                }, function() {
+
+                    changeBackgroundColor("a[class='menu-item blue']",'#ffffff','#EEEEEE');             
+                    setCircleBartoDefault();
+                    if(curObj){
+                      console.log(curObj);                  
+                      curObj.css('color','#669AE1');
+
+                      $.ajax({
+                         url:"http://api.wordnik.com:80/v4/word.json/"+curObj.text()+"/definitions?limit=2&includeRelated=false&useCanonical=false&includeTags=false&api_key="+wordkey,
+                         dataType: 'jsonp', // Notice! JSONP <-- P (lowercase)
+                         success:function(json){
+                                console.log(json);
+                                $(".word").text(curObj.text());
+                                initialAnnotation();
+                                
+                                if(json.length>0){
+                                  $(".wordmeaning").text(json[0].text)
+                                  $(".wordsource").text(json[0].attributionText)
+
+                                  if(json.length>1){
+                                    $(".wordmeaning2").text(json[1].text)
+                                    $(".wordsource2").text(json[1].attributionText)
+                                  }
+                                }  
+                                $("div[class='annotag open']").show();
+                             
+                         },
+                         error:function(){
+                             console.log("wordnik error");
+                         }
+
+                    });
+                    }
+                });
+            },2
+    );
+
+    $( "a[class='menu-item blue']" ).eyeOut(
+        function(){
+            changeBackgroundColor("a[class='menu-item blue']",'#669AE1','#EEEEEE');
+            setCircleBartoDefault();
+        },5);
 
     $( "a[class='menu-item green']" ).eyeIn(
           function() {
@@ -180,11 +199,11 @@ $(document).ready(function(){
                 bar.animate(1.0, {
                     duration: 1000
                 }, function() {    
-                  changeBackgroundColor("a[class='menu-item green']",'#ffffff','#EEEEEE');             
+                    changeBackgroundColor("a[class='menu-item green']",'#ffffff','#EEEEEE');             
                     setCircleBartoDefault();
                     if(curObj){
                       console.log(curObj);                  
-                      curObj.css('color','red');
+                      curObj.css('color','#70CC72');
                       var utterance = new SpeechSynthesisUtterance(curObj.text());
                       speechSynthesis.speak(utterance);
                     }
@@ -198,6 +217,28 @@ $(document).ready(function(){
             setCircleBartoDefault();
         },5);
 
+    $( "a[class='menu-item purple']" ).eyeIn(
+            function() {
+
+                  changeBackgroundColor("a[class='menu-item purple']",'#EEEEEE','#C49CDE');
+                  setCircleBartoPosition("a[class='menu-item purple']");
+
+                  bar.animate(1.0, {
+                      duration: 1000
+                  }, function() {    
+                      changeBackgroundColor("a[class='menu-item purple']",'#ffffff','#EEEEEE');             
+                      setCircleBartoDefault();
+                      $('canvas').css('z-index','100');
+                      $(document).bind('gazePointMove',updateHeatdata);
+                  });
+            },2
+    );
+
+    $( "a[class='menu-item purple']" ).eyeOut(
+        function(){
+            changeBackgroundColor("a[class='menu-item purple']",'#C49CDE','#EEEEEE');
+            setCircleBartoDefault();
+        },5);
     $( "a[class='menu-item lightblue']" ).eyeIn(
             function() {
 
@@ -210,6 +251,13 @@ $(document).ready(function(){
                       changeBackgroundColor("a[class='menu-item lightblue']",'#ffffff','#EEEEEE');             
                       setCircleBartoDefault();
                       $( '.overlay' ).css('color','');
+                      $("div[class='annotag open']").hide();
+
+                      $(document).unbind('gazePointMove',updateHeatdata);
+                      heat.clear();
+                      gazeData=[];
+                      draw();
+                      $('canvas').css('z-index','-1'); 
                   });
             },2
     );
@@ -219,6 +267,7 @@ $(document).ready(function(){
             changeBackgroundColor("a[class='menu-item lightblue']",'#62C2E4','#EEEEEE');
             setCircleBartoDefault();
         },5);
+
 
     function changeBackgroundColor(element,backgroundColor,color){
       $(element).css('background',backgroundColor);
@@ -237,6 +286,12 @@ $(document).ready(function(){
       circleCounter.style.top = rect.top-10 +'px';
       circleCounter.style.left = rect.left-10 +'px';
       circleCounter.style.display = 'inline';
+    }
+    function initialAnnotation(){
+        $(".wordmeaning").text('');
+        $(".wordmeaning2").text('');
+        $(".wordsource").text('');
+        $(".wordsource2").text('');
     }
 
 });

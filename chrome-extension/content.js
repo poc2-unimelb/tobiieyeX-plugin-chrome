@@ -100,9 +100,9 @@ function updateLocation(location){
 
 function checkWithinWindow(x,y){
 
-        if(x < document.body.scrollLeft || x > window.innerWidth + document.body.scrollLeft)
+        if(x < document.documentElement.scrollLeft || x > window.innerWidth + document.documentElement.scrollLeft)
             return false;   
-        if(y < document.body.scrollTop || y > document.body.scrollTop + window.innerHeight)
+        if(y < document.documentElement.scrollTop || y > document.documentElement.scrollTop + window.innerHeight)
             return false;   
         
         if(outWindow == true)

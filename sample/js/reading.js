@@ -17,6 +17,7 @@ $(document).ready(function(){
     });
     circleCounter.style.display = 'none';
     var wordkey = '6403c2110633afe550102066b7d03b83d35feb1b3c26c2dae';
+    var autoUpdata = true;
 
     $('p').css('font-size','30px');
     $("div[class='annotag open']").hide();
@@ -254,7 +255,17 @@ $(document).ready(function(){
                       changeBackgroundColor("a[class='menu-item purple']",'#ffffff','#EEEEEE');             
                       setCircleBartoDefault();
                       $('canvas').css('z-index','100');
-                      $(document).bind('gazePointMove',updateHeatdata);
+
+                      if(autoUpdata){
+                        $(document).bind('gazePointMove',updateHeatdata);
+                        autoUpdata = false;
+                        $("i[class='fa fa-eye']").attr('class', 'fa fa-eye-slash');
+                      }
+                      else{
+                        $(document).unbind('gazePointMove',updateHeatdata);
+                        autoUpdata = true;
+                        $("i[class='fa fa-eye-slash']").attr('class', 'fa fa-eye');
+                      }
                   });
             },2
     );
@@ -264,34 +275,7 @@ $(document).ready(function(){
             changeBackgroundColor("a[class='menu-item purple']",'#C49CDE','#EEEEEE');
             setCircleBartoDefault();
         },5);
-    $( "a[class='menu-item green']" ).eyeOut(
-        function(){
-            changeBackgroundColor("a[class='menu-item green']",'#70CC72','#EEEEEE');
-            setCircleBartoDefault();
-        },5);
 
-    $( "a[class='menu-item purple']" ).eyeIn(
-            function() {
-
-                  changeBackgroundColor("a[class='menu-item purple']",'#EEEEEE','#C49CDE');
-                  setCircleBartoPosition("a[class='menu-item purple']");
-
-                  bar.animate(1.0, {
-                      duration: 1000
-                  }, function() {    
-                      changeBackgroundColor("a[class='menu-item purple']",'#ffffff','#EEEEEE');             
-                      setCircleBartoDefault();
-                      $('canvas').css('z-index','100');
-                      $(document).bind('gazePointMove',updateHeatdata);
-                  });
-            },2
-    );
-
-    $( "a[class='menu-item purple']" ).eyeOut(
-        function(){
-            changeBackgroundColor("a[class='menu-item purple']",'#C49CDE','#EEEEEE');
-            setCircleBartoDefault();
-        },5);
     $( "a[class='menu-item lightblue']" ).eyeIn(
             function() {
 
@@ -311,6 +295,8 @@ $(document).ready(function(){
                       gazeData=[];
                       draw();
                       $('canvas').css('z-index','-1'); 
+                      autoUpdata = true;
+                      $("i[class='fa fa-eye-slash']").attr('class', 'fa fa-eye');
                   });
             },2
     );

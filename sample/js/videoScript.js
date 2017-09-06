@@ -1,9 +1,9 @@
 $(document).ready(function(){
 
-  $('#video').eyeFix(
+  $('#video').eyeIn(
     function() {
         $('#video')[0].play();
-      },1000
+      },5
   );
   $('#video').eyeOut(
     function() {

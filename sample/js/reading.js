@@ -22,6 +22,8 @@ $(document).ready(function(){
     $('p').css('font-size','30px');
     $("div[class='annotag open']").hide();
     $("a[class='menu-item arrow']").hide();
+    $("nav[class='menu menu-right']").hide();
+    $("nav[class='menu menu-left']").hide();
 
     $('p').each(function(){
             var text = $(this).html().split(' '),
@@ -348,6 +350,27 @@ $(document).ready(function(){
       function(){
         $("a[class='menu-item arrow']").hide();
     },5);
+
+    $("#rightArea").eyeIn(
+      function(){
+        fadein($("nav[class='menu menu-right']")[0]);
+      },5);
+
+    $("#rightArea").eyeOut(
+      function(){
+        $("nav[class='menu menu-right']").hide();
+    },5);
+
+    $("#leftArea").eyeIn(
+      function(){
+        fadein($("nav[class='menu menu-left']")[0]);
+      },5);
+
+    $("#leftArea").eyeOut(
+      function(){
+        $("nav[class='menu menu-left']").hide();
+    },5);
+
 
     $( "a[class='menu-item arrow']" ).eyeIn(
             function() {

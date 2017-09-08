@@ -100,6 +100,11 @@ $(document).ready(function(){
         $(document).bind('gazePointMove',updateHeatdata);
     });
 
+    $( "a[class='menu-item orange']" ).click(function() {
+        $(".img-fluid").imageLens();
+        $(".img-fluid2").imageLens();
+    });
+
     $( "a[class='menu-item lightblue']" ).click(function() {
         $( '.overlay' ).css('color','');
         $("div[class='annotag open']").hide();

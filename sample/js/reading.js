@@ -103,6 +103,7 @@ $(document).ready(function(){
     });
 
     $( "a[class='menu-item orange']" ).click(function() {
+        $('#eyexmovingcircle').css('opacity','0');
         $(".img-fluid").imageLens();
         $(".img-fluid2").imageLens();
     });
@@ -223,6 +224,29 @@ $(document).ready(function(){
     $( "a[class='menu-item green']" ).eyeOut(
         function(){
             changeBackgroundColor("a[class='menu-item green']",'#70CC72','#EEEEEE');
+            setCircleBartoDefault();
+        },5);
+    $( "a[class='menu-item orange']" ).eyeIn(
+            function() {
+
+                  changeBackgroundColor("a[class='menu-item orange']",'#EEEEEE','#FC913A');
+                  setCircleBartoPosition("a[class='menu-item orange']");
+
+                  bar.animate(1.0, {
+                      duration: 1000
+                  }, function() {    
+                      changeBackgroundColor("a[class='menu-item orange']",'#ffffff','#EEEEEE');             
+                      setCircleBartoDefault();
+                      $('#eyexmovingcircle').css('opacity','0');
+                      $(".img-fluid").imageLens();
+                      $(".img-fluid2").imageLens();
+                  });
+            },2
+    );
+
+    $( "a[class='menu-item orange']" ).eyeOut(
+        function(){
+            changeBackgroundColor("a[class='menu-item orange']",'#FC913A','#EEEEEE');
             setCircleBartoDefault();
         },5);
 

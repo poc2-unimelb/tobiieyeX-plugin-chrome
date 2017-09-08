@@ -38,26 +38,25 @@
 
             target.css({ backgroundImage: "url('" + imageSrc + "')" });
 
-            target.mousemove(setPosition);
-            $(this).mousemove(setPosition);
+            $(document).bind('gazePointMove',setPosition);
 
-            function setPosition(e) {
+            function setPosition(evt,e) {
 
-                var leftPos = parseInt(e.pageX - offset.left);
-                var topPos = parseInt(e.pageY - offset.top);
+                var leftPos = parseInt(e.x - offset.left);
+                var topPos = parseInt(e.y - offset.top);
 
                 if (leftPos < 0 || topPos < 0 || leftPos > obj.width() || topPos > obj.height()) {
                     target.hide();
                 }
                 else {
                     target.show();
-
-                    leftPos = String(((e.pageX - offset.left) * widthRatio - target.width() / 2) * (-1));
-                    topPos = String(((e.pageY - offset.top) * heightRatio - target.height() / 2) * (-1));
+                
+                    leftPos = String(((e.x - offset.left) * widthRatio - target.width() / 2) * (-1));
+                    topPos = String(((e.y - offset.top) * heightRatio - target.height() / 2) * (-1));
                     target.css({ backgroundPosition: leftPos + 'px ' + topPos + 'px' });
 
-                    leftPos = String(e.pageX - target.width() / 2);
-                    topPos = String(e.pageY - target.height() / 2);
+                    leftPos = String(e.x - target.width() / 2);
+                    topPos = String(e.y - target.height() / 2);
                     target.css({ left: leftPos + 'px', top: topPos + 'px' });
                 }
             }

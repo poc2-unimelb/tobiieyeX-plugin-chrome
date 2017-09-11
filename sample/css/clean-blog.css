@@ -592,7 +592,7 @@ font-weight: italic;
    text-shadow: none;
 }
 
-canvas {
+#canvas {
 position:absolute;
 top:0;
 left:0;

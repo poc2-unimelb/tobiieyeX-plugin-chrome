@@ -25,7 +25,7 @@ $(document).ready(function(){
                           'eye':0,
                           'undo':0,
                           'scroll-down':0 };
-
+    var timeFormat = 'MM/DD/YYYY HH:mm:ss';                      
 
     $('p').css('font-size','30px');
     $("div[class='annotag open']").hide();
@@ -450,10 +450,19 @@ $(document).ready(function(){
 
     $(document).bind('gazeObject',getGazeObject);
     var gazeTextList = {};
+    var gazeTextTime = {};
+    var gazeButtonTime = {};
     
     function getGazeObject(evt, element) {
-      if(element.tagName=='SPAN')
+      if(element.tagName=='SPAN'){
         gazeTextList[element.innerHTML] = gazeTextList[element.innerHTML]!=undefined ? gazeTextList[element.innerHTML]+1:1;
+        var curTime =  moment().format(timeFormat);
+        gazeTextTime[curTime] = gazeTextTime[curTime]!=undefined? gazeTextTime[curTime]+1 :1;
+      }
+      else if(element.tagName=='A'){
+        var curTime =  moment().format(timeFormat);
+        gazeButtonTime[curTime] = gazeButtonTime[curTime]!=undefined? gazeButtonTime[curTime]+1 :1;
+      }
     };
 
 
@@ -462,6 +471,8 @@ $(document).ready(function(){
       topText = getTopElements(gazeTextList,10);
       localStorage.setItem("gazeTextList", JSON.stringify(topText));
       localStorage.setItem("clickActionList", JSON.stringify(clickActionList));
+      localStorage.setItem("gazeTextTime", JSON.stringify(gazeTextTime));
+      localStorage.setItem("gazeButtonTime", JSON.stringify(gazeButtonTime));
     });
 
     function getTopElements(gazeList,number){

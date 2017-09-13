@@ -232,6 +232,7 @@
                                 gazeObjectList[i].totalInCounter +=1;
                                 buffer.push(gazeObjectList[i]);
                                 visitedElement[gazeObjectList[i].border] = true;
+                                $(document).trigger('gazeObject',gazeObjectList[i].$element);
                             }
 
                             if(gazeObjectList[i].state == 'out'){

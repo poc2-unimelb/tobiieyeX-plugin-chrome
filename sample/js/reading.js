@@ -432,4 +432,39 @@ $(document).ready(function(){
             op += op * 0.1;
         }, 10);
     }
+    
+    $(document).bind('gazeObject',getGazeObject);
+    gazeTextList = {};
+
+    function getGazeObject(evt, element) {
+      if(element.tagName=='SPAN')
+        console.log(element.innerHTML);
+        gazeTextList[element.innerHTML] = gazeTextList[element.innerHTML]!=undefined ? gazeTextList[element.innerHTML]+1:1;
+    };
+
+    $("#analysisLink").click(function() {
+
+      topText = getTopElements(gazeTextList,10);
+      localStorage.setItem("gazeTextList", JSON.stringify(topText));
+
+    });
+
+    function getTopElements(gazeList,number){
+
+      var sortable = [];
+      for (var key in gazeList)
+        if(key.length>0)
+          sortable.push([key, gazeList[key]])
+
+      sortable.sort(function(first, second) {
+          return second[1] - first[1];
+      });
+
+      var topElements =  {};
+      for (var i = 0; i < number; i++)
+        topElements[sortable[i][0]] = sortable[i][1];
+
+      return topElements;
+    }
+
 });

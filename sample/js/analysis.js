@@ -98,12 +98,17 @@ var gazeTextTimeList = JSON.parse(gazeTextTime);
 var gazeButtonTime = localStorage.getItem("gazeButtonTime");
 var gazeButtonTimeList = JSON.parse(gazeButtonTime);
 
+var gazeImgTime = localStorage.getItem("gazeImgTime");
+var gazeImgTimeList = JSON.parse(gazeImgTime);
 
 var tag = {};
 for(var key in gazeTextTimeList)
     tag[key]=1;
 
 for(var key in gazeButtonTimeList)
+    tag[key]=1;
+
+for(var key in gazeImgTimeList)
     tag[key]=1;
 
 var sortedTime = [];
@@ -116,7 +121,9 @@ sortedTime.sort();
 timeTag = [];
 textTag = [];
 buttonTag = [];
+imgTag = [];
 totalTag = [];
+
 
 
 for(var i in sortedTime){
@@ -133,11 +140,17 @@ for(var i in sortedTime){
     else
         buttonTag.push(0);
 
-    totalTag.push(buttonTag[buttonTag.length-1] + textTag[textTag.length-1]);
+    if(gazeImgTimeList[key])
+        imgTag.push(gazeImgTimeList[key]);
+    else
+        imgTag.push(0);
+
+    totalTag.push(buttonTag[buttonTag.length-1] + textTag[textTag.length-1] + imgTag[imgTag.length-1]);
 }
 
 
     var timeFormat = 'MM/DD/YYYY HH:mm:ss';
+    
     var config = {
       type: 'bar',
       data: {
@@ -154,6 +167,12 @@ for(var i in sortedTime){
           backgroundColor: 'rgba(54, 162, 235, 0.5)',
           borderColor: 'rgba(54, 162, 235, 1)',
           data: buttonTag,
+        },{
+          type: 'bar',
+          label: 'Img gaze times',
+          backgroundColor: 'rgba(255, 205, 86, 0.5)',
+          borderColor: 'rgba(255, 205, 86, 1)',
+          data: imgTag,
         },{
           type: 'line',
           label: 'Total gaze times',
@@ -173,7 +192,9 @@ for(var i in sortedTime){
             type: "time",
             display: true,
             time: {
-              format: timeFormat
+              format: timeFormat,
+              round: 'second',
+              unit: 'second'
             }
           }],
         },

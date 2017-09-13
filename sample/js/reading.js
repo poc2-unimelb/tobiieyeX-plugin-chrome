@@ -26,6 +26,8 @@ $(document).ready(function(){
                           'undo':0,
                           'scroll-down':0 };
     var timeFormat = 'MM/DD/YYYY HH:mm:ss';                      
+    var audio = document.getElementById("BackgroundAudio"); 
+    var elephantAudio = document.getElementById("elephantAudio"); 
 
     $('p').css('font-size','30px');
     $("div[class='annotag open']").hide();
@@ -342,6 +344,8 @@ $(document).ready(function(){
                       $('canvas').css('z-index','-1'); 
                       autoUpdata = true;
                       $("i[class='fa fa-eye-slash']").attr('class', 'fa fa-eye');
+                      audio.pause();
+                      elephantAudio.pause();
                       clickActionList['undo']+=1;
                   });
             },2
@@ -435,6 +439,20 @@ $(document).ready(function(){
             setCircleBartoDefault();
         },5);
 
+    $('.img-fluid2').eyeIn(
+      function() {
+          if($('.img-fluid2').attr('src') == "img/elephant.jpg")
+               elephantAudio.play();
+        },1000
+    );
+
+    $('.img-fluid').eyeIn(
+      function() {
+          audio.play();
+        },
+        1500
+    );
+
     function fadein(element) {
       var op = 0.1;  // initial opacity
       element.style.display = 'block';
@@ -452,6 +470,7 @@ $(document).ready(function(){
     var gazeTextList = {};
     var gazeTextTime = {};
     var gazeButtonTime = {};
+    var gazeImgTime = {};
     
     function getGazeObject(evt, element) {
       if(element.tagName=='SPAN'){
@@ -463,6 +482,10 @@ $(document).ready(function(){
         var curTime =  moment().format(timeFormat);
         gazeButtonTime[curTime] = gazeButtonTime[curTime]!=undefined? gazeButtonTime[curTime]+1 :1;
       }
+      else if(element.tagName=='IMG'){
+        var curTime =  moment().format(timeFormat);
+        gazeImgTime[curTime] = gazeImgTime[curTime]!=undefined? gazeImgTime[curTime]+1 :1;
+      }
     };
 
 
@@ -473,6 +496,7 @@ $(document).ready(function(){
       localStorage.setItem("clickActionList", JSON.stringify(clickActionList));
       localStorage.setItem("gazeTextTime", JSON.stringify(gazeTextTime));
       localStorage.setItem("gazeButtonTime", JSON.stringify(gazeButtonTime));
+      localStorage.setItem("gazeImgTime", JSON.stringify(gazeImgTime));
     });
 
     function getTopElements(gazeList,number){

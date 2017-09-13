@@ -12,7 +12,7 @@ for (var key in gazeTextList){
 
 var clickAction = localStorage.getItem("clickActionList");
 var clickActionList = JSON.parse(clickAction);
-console.log(clickActionList);
+
 for (var key in clickActionList){
     $('#'+key).attr('data-to', clickActionList[key]);
 }

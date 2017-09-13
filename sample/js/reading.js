@@ -23,7 +23,8 @@ $(document).ready(function(){
                           'globe':0,
                           'heart':0,
                           'eye':0,
-                          'undo':0};
+                          'undo':0,
+                          'scroll-down':0 };
 
 
     $('p').css('font-size','30px');
@@ -275,7 +276,7 @@ $(document).ready(function(){
                       for (var i = 0; i < topGazeElements.length; i++){
                         topGazeElements[i].css('color','#FE4365');    
                       }
-                      clickActionList['heat']+=1;
+                      clickActionList['heart']+=1;
                   });
             },2
     );
@@ -423,6 +424,7 @@ $(document).ready(function(){
                       $('html, body').animate({
                           scrollTop: $(window).scrollTop() + 200
                       });
+                      clickActionList['scroll-down']+=1;                    
                   });
             },2
     );

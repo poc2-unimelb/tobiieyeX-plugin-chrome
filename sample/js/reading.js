@@ -18,6 +18,13 @@ $(document).ready(function(){
     circleCounter.style.display = 'none';
     var wordkey = '6403c2110633afe550102066b7d03b83d35feb1b3c26c2dae';
     var autoUpdata = true;
+    var clickActionList ={'question':0,
+                          'microphone':0,
+                          'globe':0,
+                          'heart':0,
+                          'eye':0,
+                          'undo':0};
+
 
     $('p').css('font-size','30px');
     $("div[class='annotag open']").hide();
@@ -83,7 +90,7 @@ $(document).ready(function(){
                                 
               $(".word").text(curObj.text());
                 initialAnnotation();
-                console.log(json);
+                
                 for(var i = 0; i < json.length; i++){
                   $(".wordmeaning"+(i+1)).text(json[i].text)
                   $(".wordsource"+(i+1)).text(json[i].attributionText)
@@ -176,12 +183,13 @@ $(document).ready(function(){
                                 
                                 $(".word").text(curObj.text());
                                 initialAnnotation();
-                                console.log(json);
+                                
                                 for(var i = 0; i < json.length; i++){
                                   $(".wordmeaning"+(i+1)).text(json[i].text)
                                   $(".wordsource"+(i+1)).text(json[i].attributionText)
                                 } 
-                                $("div[class='annotag open']").show();                         
+                                $("div[class='annotag open']").show();
+                                clickActionList['question']+=1;                         
                          },
                          error:function(){
                              console.log("wordnik error");
@@ -217,6 +225,7 @@ $(document).ready(function(){
                       curObj.css('color','#70CC72');
                       var utterance = new SpeechSynthesisUtterance(curObj.text());
                       speechSynthesis.speak(utterance);
+                      clickActionList['microphone']+=1;
                     }
                 });
             },2
@@ -240,6 +249,7 @@ $(document).ready(function(){
                       $('#eyexmovingcircle').css('opacity','0');
                       $(".img-fluid").imageLens();
                       $(".img-fluid2").imageLens();
+                      clickActionList['globe']+=1;
                   });
             },2
     );
@@ -265,6 +275,7 @@ $(document).ready(function(){
                       for (var i = 0; i < topGazeElements.length; i++){
                         topGazeElements[i].css('color','#FE4365');    
                       }
+                      clickActionList['heat']+=1;
                   });
             },2
     );
@@ -298,6 +309,7 @@ $(document).ready(function(){
                         autoUpdata = true;
                         $("i[class='fa fa-eye-slash']").attr('class', 'fa fa-eye');
                       }
+                      clickActionList['eye']+=1;
                   });
             },2
     );
@@ -329,6 +341,7 @@ $(document).ready(function(){
                       $('canvas').css('z-index','-1'); 
                       autoUpdata = true;
                       $("i[class='fa fa-eye-slash']").attr('class', 'fa fa-eye');
+                      clickActionList['undo']+=1;
                   });
             },2
     );
@@ -432,21 +445,21 @@ $(document).ready(function(){
             op += op * 0.1;
         }, 10);
     }
-    
-    $(document).bind('gazeObject',getGazeObject);
-    gazeTextList = {};
 
+    $(document).bind('gazeObject',getGazeObject);
+    var gazeTextList = {};
+    
     function getGazeObject(evt, element) {
       if(element.tagName=='SPAN')
-        console.log(element.innerHTML);
         gazeTextList[element.innerHTML] = gazeTextList[element.innerHTML]!=undefined ? gazeTextList[element.innerHTML]+1:1;
     };
+
 
     $("#analysisLink").click(function() {
 
       topText = getTopElements(gazeTextList,10);
       localStorage.setItem("gazeTextList", JSON.stringify(topText));
-
+      localStorage.setItem("clickActionList", JSON.stringify(clickActionList));
     });
 
     function getTopElements(gazeList,number){

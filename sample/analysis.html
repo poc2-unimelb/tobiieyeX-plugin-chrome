@@ -20,6 +20,7 @@
 
     <!-- Custom styles for this template -->
     <link href="css/clean-blog.min.css" rel="stylesheet">
+    <link href="css/analysis.min.css" rel="stylesheet">
 
   </head>
 
@@ -76,6 +77,45 @@
     <!-- Main Content -->
     <div class="container">
       <div class="row">
+        <div class="wrapper">
+          <div class="counter col_fourth">
+            <i class="fa fa-question-circle fa-2x"></i>
+            <h2 class="timer count-title count-number" id = 'question' data-to="0" data-speed="500"></h2>
+             <p class="count-text ">Question click</p>
+          </div>
+
+          <div class="counter col_fourth">
+            <i class="fa fa-microphone fa-2x"></i>
+            <h2 class="timer count-title count-number" id = 'microphone' data-to="0" data-speed="500"></h2>
+            <p class="count-text ">Microphone click</p>
+          </div>
+
+          <div class="counter col_fourth">
+            <i class="fa fa-globe fa-2x"></i>
+            <h2 class="timer count-title count-number" id = 'globe' data-to="0" data-speed="500"></h2>
+            <p class="count-text ">Globe Click</p>
+          </div>
+        </div>
+      <div class="wrapper">
+        <div class="counter col_fourth">
+          <i class="fa fa-heart fa-2x"></i>
+          <h2 class="timer count-title count-number" id = 'heart' data-to="0" data-speed="500"></h2>
+           <p class="count-text ">Heart click</p>
+        </div>
+
+        <div class="counter col_fourth">
+          <i class="fa fa-eye fa-2x"></i>
+          <h2 class="timer count-title count-number" id = 'eye' data-to="0" data-speed="500"></h2>
+          <p class="count-text ">Eye click</p>
+        </div>
+
+        <div class="counter col_fourth">
+          <i class="fa fa-undo fa-2x"></i>
+          <h2 class="timer count-title count-number" id = 'undo' data-to="0" data-speed="500"></h2>
+          <p class="count-text ">Undo click</p>
+        </div>
+      </div>
+
         <div class="col-lg-8 col-md-10 mx-auto">
 
           <div style="position: relative; width:400px; height:250px; display: inline-block;" >
@@ -86,9 +126,9 @@
           </div>
 
         </div>
-      </div>
-    </div>
 
+      </div>
+    </div>   
     <hr>
 
     <!-- Footer -->
@@ -137,6 +177,7 @@
     <script src="js/clean-blog.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
     <script src='js/analysis.js'></script>
+    <script src='js/counter.js'></script>
     <script src='js/jquery.tobiieyeX.js'></script>
 
   </body>

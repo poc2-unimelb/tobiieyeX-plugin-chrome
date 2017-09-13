@@ -10,10 +10,17 @@ for (var key in gazeTextList){
     topTextValue.push(gazeTextList[key]);
 }
 
+var clickAction = localStorage.getItem("clickActionList");
+var clickActionList = JSON.parse(clickAction);
+console.log(clickActionList);
+for (var key in clickActionList){
+    $('#'+key).attr('data-to', clickActionList[key]);
+}
+
 var data = {
         labels: topText,
         datasets: [{
-            label: '# of gaze',
+            label: '# of gaze on Text',
             data: topTextValue,
             backgroundColor: [
                 'rgba(255, 99, 132, 1)',
@@ -59,7 +66,7 @@ var PolarOptions= {
             },
             title: {
                 display: true,
-                text: 'Gaze portion'
+                text: 'Gaze portion on Text'
             },
             scale: {
               ticks: {
@@ -85,6 +92,7 @@ new Chart(Polar_object, {
     type: 'polarArea',
     options: PolarOptions
 });
+
 
 });
 

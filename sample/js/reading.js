@@ -24,8 +24,10 @@ $(document).ready(function(){
                           'heart':0,
                           'eye':0,
                           'undo':0,
-                          'scroll-down':0 };
-    var timeFormat = 'MM/DD/YYYY HH:mm:ss';                      
+                          'scroll-down':0,
+                          'number-text' :0 };
+    var timeFormat = 'MM/DD/YYYY HH:mm:ss';
+    var numberText = {};                      
     var audio = document.getElementById("BackgroundAudio"); 
     var elephantAudio = document.getElementById("elephantAudio"); 
 
@@ -41,7 +43,7 @@ $(document).ready(function(){
                 result = []; 
 
             for( var i = 0; i < len; i++ ) 
-            	result[i] = '<span class="overlay">' + text[i] + '</span>';   
+            	result[i] = '<span class="overlay" id = "text'+ i + '">' + text[i] + '</span>';   
 
             $(this).html(result.join(' '));
     });
@@ -443,14 +445,14 @@ $(document).ready(function(){
       function() {
           if($('.img-fluid2').attr('src') == "img/elephant.jpg")
                elephantAudio.play();
-        },1000
+        },50
     );
 
     $('.img-fluid').eyeIn(
       function() {
           audio.play();
         },
-        1500
+        50
     );
 
     function fadein(element) {
@@ -477,6 +479,10 @@ $(document).ready(function(){
         gazeTextList[element.innerHTML] = gazeTextList[element.innerHTML]!=undefined ? gazeTextList[element.innerHTML]+1:1;
         var curTime =  moment().format(timeFormat);
         gazeTextTime[curTime] = gazeTextTime[curTime]!=undefined? gazeTextTime[curTime]+1 :1;
+        if(numberText[element.id]==undefined){
+            clickActionList['number-text']+=1;
+            numberText[element.id] = 1;
+        }
       }
       else if(element.tagName=='A'){
         var curTime =  moment().format(timeFormat);

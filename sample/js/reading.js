@@ -30,6 +30,7 @@ $(document).ready(function(){
     var numberText = {};                      
     var audio = document.getElementById("BackgroundAudio"); 
     var elephantAudio = document.getElementById("elephantAudio"); 
+    var iniScrollTop = $(window).scrollTop();
 
     $('p').css('font-size','30px');
     $("div[class='annotag open']").hide();
@@ -434,6 +435,7 @@ $(document).ready(function(){
                   }, function() {    
                       changeBackgroundColor("a[class='menu-item arrow']",'#ffffff','#EEEEEE');             
                       setCircleBartoDefault();
+                      gazePositionTime.push("scoll-down");
                       $('html, body').animate({
                           scrollTop: $(window).scrollTop() + 200
                       });
@@ -529,5 +531,42 @@ $(document).ready(function(){
 
       return topElements;
     }
+
+  $( "a[class='head-item']" ).click(function() {
+    var initialtime = gazePositionTime[0].time;
+    
+    $('canvas').css('z-index','100');
+    $('html, body').animate({
+        scrollTop: iniScrollTop
+    });
+
+    trail();
+    });
+
+    async function trail() {
+      var interval = 0;
+      var initialtime = gazePositionTime[0].time;
+       for (var i = 0; i < gazePositionTime.length; i++){
+         if(gazePositionTime[i].time){
+             interval = gazePositionTime[i].time - initialtime;
+             await wait(interval)
+             trigger(gazePositionTime[i]);
+             initialtime = gazePositionTime[i].time;
+           }
+          else{
+             $('html, body').animate({
+                scrollTop: $(window).scrollTop() + 200
+            });
+          }
+       }
+       $('canvas').css('z-index','-1');
+    }
+  function wait(msec) {
+    return new Promise(res => {setTimeout(()=>{res()}, msec)})
+  }
+
+  function trigger(obj){
+    $(document).trigger('eyemove',obj);
+  }
 
 });

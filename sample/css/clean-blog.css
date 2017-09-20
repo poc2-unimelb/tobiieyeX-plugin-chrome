@@ -643,3 +643,13 @@ z-index:-1;
    color: #353333;
    text-shadow: none;
 }
+
+.head-item{
+   color: #FFFFFF;
+}
+.head-item:hover {
+   color: #999999;
+}
+.head-item:focus { 
+    color: #FFFFFF;
+}

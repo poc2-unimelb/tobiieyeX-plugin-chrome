@@ -95,7 +95,7 @@ $(document).ready(function(){
                                 
               $(".word").text(curObj.text());
                 initialAnnotation();
-                
+
                 for(var i = 0; i < json.length; i++){
                   $(".wordmeaning"+(i+1)).text(json[i].text)
                   $(".wordsource"+(i+1)).text(json[i].attributionText)
@@ -143,6 +143,7 @@ $(document).ready(function(){
     }
 
     var gazeData = [];
+    var gazePositionTime = [];
     var heat = simpleheat('canvas').data(gazeData).max(18),
     frame;
 
@@ -156,6 +157,12 @@ $(document).ready(function(){
     function updateGazeDate(evt, point){
       var gazePoint = [point.x,point.y,1];
       gazeData.push(gazePoint);
+
+      var curTime =  moment().valueOf();
+      var positionTime  = {'x':point.x,
+                           'y':point.y,
+                           'time':curTime};
+      gazePositionTime.push(positionTime); 
     }
 
     function updateHeatdata(evt, point) {
@@ -445,14 +452,14 @@ $(document).ready(function(){
       function() {
           if($('.img-fluid2').attr('src') == "img/elephant.jpg")
                elephantAudio.play();
-        },50
+        },200
     );
 
     $('.img-fluid').eyeIn(
       function() {
           audio.play();
         },
-        50
+        200
     );
 
     function fadein(element) {

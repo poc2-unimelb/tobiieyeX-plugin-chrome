@@ -653,3 +653,10 @@ z-index:-1;
 .head-item:focus { 
     color: #FFFFFF;
 }
+.playbtn{
+  position: fixed;
+   margin: auto;
+   left: 32%;
+   top: 32%;
+   z-index: 999;
+}

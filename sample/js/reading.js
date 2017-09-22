@@ -145,6 +145,7 @@ $(document).ready(function(){
 
     var gazeData = [];
     var gazePositionTime = [];
+    gazePositionTime.push(window.scrollY);
     var heat = simpleheat('canvas').data(gazeData).max(18),
     frame;
 
@@ -435,11 +436,12 @@ $(document).ready(function(){
                   }, function() {    
                       changeBackgroundColor("a[class='menu-item arrow']",'#ffffff','#EEEEEE');             
                       setCircleBartoDefault();
-                      gazePositionTime.push("scoll-down");
+                      
                       $('html, body').animate({
                           scrollTop: $(window).scrollTop() + 200
                       });
-                      clickActionList['scroll-down']+=1;                    
+                      clickActionList['scroll-down']+=1;
+
                   });
             },2
     );
@@ -512,6 +514,16 @@ $(document).ready(function(){
       localStorage.setItem("gazeTextTime", JSON.stringify(gazeTextTime));
       localStorage.setItem("gazeButtonTime", JSON.stringify(gazeButtonTime));
       localStorage.setItem("gazeImgTime", JSON.stringify(gazeImgTime));
+      localStorage.setItem("gazePositionTime", JSON.stringify(gazePositionTime));
+    });
+    $("#trailLink").click(function() {
+      topText = getTopElements(gazeTextList,10);
+      localStorage.setItem("gazeTextList", JSON.stringify(topText));
+      localStorage.setItem("clickActionList", JSON.stringify(clickActionList));
+      localStorage.setItem("gazeTextTime", JSON.stringify(gazeTextTime));
+      localStorage.setItem("gazeButtonTime", JSON.stringify(gazeButtonTime));
+      localStorage.setItem("gazeImgTime", JSON.stringify(gazeImgTime));
+      localStorage.setItem("gazePositionTime", JSON.stringify(gazePositionTime));
     });
 
     function getTopElements(gazeList,number){
@@ -531,42 +543,8 @@ $(document).ready(function(){
 
       return topElements;
     }
-
-  $( "a[class='head-item']" ).click(function() {
-    var initialtime = gazePositionTime[0].time;
     
-    $('canvas').css('z-index','100');
-    $('html, body').animate({
-        scrollTop: iniScrollTop
-    });
-
-    trail();
-    });
-
-    async function trail() {
-      var interval = 0;
-      var initialtime = gazePositionTime[0].time;
-       for (var i = 0; i < gazePositionTime.length; i++){
-         if(gazePositionTime[i].time){
-             interval = gazePositionTime[i].time - initialtime;
-             await wait(interval)
-             trigger(gazePositionTime[i]);
-             initialtime = gazePositionTime[i].time;
-           }
-          else{
-             $('html, body').animate({
-                scrollTop: $(window).scrollTop() + 200
-            });
-          }
-       }
-       $('canvas').css('z-index','-1');
-    }
-  function wait(msec) {
-    return new Promise(res => {setTimeout(()=>{res()}, msec)})
-  }
-
-  function trigger(obj){
-    $(document).trigger('eyemove',obj);
-  }
-
+  window.addEventListener('scroll', function(e) {
+        gazePositionTime.push(window.scrollY);
+  });
 });

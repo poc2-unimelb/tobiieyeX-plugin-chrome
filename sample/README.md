@@ -6,21 +6,35 @@ Download the [Sample Website](#)
 
 ### eyeIn
 
-```js
-$( obj ).eyeIn(function,threshold);
-```
-### eyeOut
+_Action_ function will be triggered as long as the number of gaze on the _obj_ is over _threshold_
 
 ```js
-$( obj ).eyeOut(function,threshold);
+$( obj ).eyeIn(action,threshold);
+function action(){};
+```
+
+### eyeOut
+
+Gaze point needs to be in the _obj_ area first.
+
+_Action_ function will be triggered as long as the number of gaze outside of _obj_ area is over _threshold_.
+
+```js
+$( obj ).eyeOut(action,threshold);
+function action(){};
 ```
 ### eyeFix
 
+_Action_ function will be triggered as long as the number of gaze on the _obj_ is over _fixation_ millisecond.
+
 ```js
-$( obj ).eyeFix(function,fixation);
+$( obj ).eyeFix(action,fixation);
+function action(){};
 ```
 
 ### currentGazeElement
+
+Specify the _elementTag_ first and _curObj_ is the most recently gaze object. 
 
 ```js
 var curObj = $.currentGazeElement(elementTag);
@@ -28,25 +42,42 @@ var curObj = $.currentGazeElement(elementTag);
 
 ### eyeSuspend
 
+_Action_ function will be triggered when detecting the suspend event.
+
 ```js
-$.eyeSuspend(function);
+$.eyeSuspend(action);
+function action(){};
 ```
 
 ### eyeOutWindow
 
+Gaze point needs to be in the window first.
+
+_Action_ function will be triggered as long as the number of gaze outside of the window is over _threshold_.
+
 ```js
-$.eyeOutWindow(function,threshold);
+$.eyeOutWindow(action,threshold);
+function action(){};
 ```
 
 ### topGazeElement
 
+Specify the _elementTag_ first and number of elements you want to retrieve.
+
+_topGazeElements_ are the most popular gaze elements.
+
 ```js
 var topGazeElements = $.topGazeElement(number,elementTag);
+for (var i = 0; i < topGazeElements.length; i++){
+          topGazeElements[i].css('color','red');    
+        }
 ```
 
 ## Example Event Usage
 
-###gazePointMove
+### gazePointMove
+
+Event _gazePointMove_ will be triggered as long as the gaze point updates.
 
 ```js
 $(document).unbind('gazePointMove',gazePointMoveFunction);
@@ -57,7 +88,10 @@ function gazePointMoveFunction(evt, point) {
 ```
 
 
-###gazeObject
+
+### gazeObject
+
+Event _gazeObject_ will be triggered as long as the gaze point moves into predefined element area.
 
 ```js
 $(document).bind('gazeObject',getGazeObjectFunction);

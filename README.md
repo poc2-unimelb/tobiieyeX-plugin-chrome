@@ -38,3 +38,42 @@ These instructions will get you a copy of the project up and running on your loc
 * Click the chrome extension icon at the top right of Google Chrome and click _Connect_
 * If setup correctly, the window of NativeMessageTest will launch
 
+### jQuery plugin
+
+* Download the [jquery.tobiieyeX.js](sample/js/jquery.tobiieyeX.js)
+### Example use
+#### index.html
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+#btn {
+	width: 500px;
+	height: 500px;
+}
+</style>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js'></script>
+<script src="jquery.tobiieyeX.js"></script>
+</head>
+<body>
+<button id="btn">Click</button>
+<script>
+$('#btn').eyeIn(function() {
+     alert("Eye Click");          
+  },30);
+</script>
+</body>
+</html>
+```
+
+* Click the chrome extension icon at the top right of Google Chrome and click _Connect_  
+* Click _Trace_ 
+* Look at the button area for a while to enable the alert 
+
+
+## Examples
+
+
+For more information and examples, please head over to the [sample](sample) folder and then read the instructions.

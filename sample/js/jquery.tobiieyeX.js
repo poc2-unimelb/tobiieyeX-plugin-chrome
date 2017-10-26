@@ -1,5 +1,12 @@
 ;(function($, window, document,undefined) {
+    /** 
+        * @desc this is a jQuery plugin to embed eye tracking tech into website
+        * examples include eyeIn,eyeOut,eyeFix,eyeSuspend,eyeOutWindow,currentGazeElement,topGazeElement
+        * @author Posung Chen poc2@student.unimelb.edu.au
+        * @required jQuery
+    */
 
+    // initial the gaze object property
     var gazeObjectList= [];
     var GazeObject = function(ele, act) {
         this.$element = ele,
@@ -31,14 +38,20 @@
     var outWindowCounter = 0;
     var gethint = false;
     var hintTime = 3000;
-
     var buffer = gazeObjectBuffer(100);
 
+    /**
+        * @desc create a gazeObject and attach the eyeIn gaze event to it 
+        * @param function $act - the function to be executed 
+        * @param numeric $threshold - threshold define the number of times that gaze need to move into obj to triiger the function
+    */
     $.fn.eyeIn = function(act,threshold) {
 
+        // check whether act is a function
         if($.checkFunctionArgument("eyeIn",act)==false)
             return
 
+        // obtain the bounding boxes of the obj and create a GazeObject
         var gazeObject = new GazeObject(this, act);        
         var rect = gazeObject.$element[0].getBoundingClientRect();
         var retBorder = [rect.left+ document.documentElement.scrollLeft,rect.right+ document.documentElement.scrollLeft,rect.top+ document.documentElement.scrollTop,rect.bottom+ document.documentElement.scrollTop];
@@ -49,11 +62,18 @@
 
     };
 
+    /**
+        * @desc create a gazeObject and attach the eyeFix gaze event to it 
+        * @param function $act - the function to be executed 
+        * @param numeric $fixation - fixation define the number of millisecond that gaze need to move into obj to triiger the function
+    */
     $.fn.eyeFix = function(act,fixation) {
 
+        // check whether act is a function
         if($.checkFunctionArgument("eyeFix",act)==false)
             return;
 
+        // obtain the bounding boxes of the obj and create a GazeObject
         var gazeObject;
         if(fixation==0)
             gazeObject = new GazeObject(this, act);
@@ -69,12 +89,18 @@
         gazeObjectList.push(gazeObject);
 
     };
-
+    /**
+        * @desc create a gazeObject and attach the eyeOut gaze event to it 
+        * @param function $act - the function to be executed 
+        * @param numeric $threshold - threshold define the number of times that gaze need to move away from obj to triiger the function
+   */
     $.fn.eyeOut = function(act,threshold) {
 
+        // check whether act is a function
         if($.checkFunctionArgument("eyeOut",act)==false)
             return;
 
+        //if the gazeObject is already in the list, we don't have to create a new one
         for (var i = 0; i < gazeObjectList.length; i++){
             if(gazeObjectList[i].$element.is(this)){
                 gazeObjectList[i].eyeOutAction =  act;
@@ -83,6 +109,7 @@
             }
         }
 
+        // obtain the bounding boxes of the obj and create a GazeObject
         var gazeObject = new GazeObject(this, function(){});        
         var rect = gazeObject.$element[0].getBoundingClientRect();
         var retBorder = [rect.left+ document.documentElement.scrollLeft,rect.right+ document.documentElement.scrollLeft,rect.top+ document.documentElement.scrollTop,rect.bottom+ document.documentElement.scrollTop];
@@ -93,6 +120,11 @@
         gazeObjectList.push(gazeObject);
     };
 
+    /**
+        * @desc return the current gaze object with elementTag
+        * @param string $elementTag - the jQuery tag to identify the required element 
+        * @return DOM element 
+    */
     $.currentGazeElement = function(elementTag){
 
         var accumulator = {};
@@ -126,7 +158,10 @@
         
         return curObj;
     }
-
+    /**
+        * @desc set the function to be executed when the gaze point is missing 
+        * @param function $act - the function to be executed 
+    */
     $.eyeSuspend = function(act) {
 
         if($.checkFunctionArgument("eyeSuspend",act)==false)
@@ -135,7 +170,11 @@
         var suspendObj = new suspendObject(act);    
         suspendActionList.push(suspendObj);
     };
-
+    /**
+        * @desc set the function to be executed when the gaze point outside the window 
+        * @param function $act - the function to be executed 
+        * @param numeric $threshold - threshold define the number of times that gaze need to move outside the window to triiger the function
+    */
     $.eyeOutWindow = function(act,threshold) {
 
         if($.checkFunctionArgument("eyeOutWindow",act)==false)
@@ -146,11 +185,20 @@
         outWindowActionList.push(OutWindowObj);
 
     };
+    /**
+        * @desc enable the automatic bookmark 
+        * @param numeric $sec - define the time to show automatic bookmark 
+    */
     $.eyehint = function(sec) {
         hintTime = sec;
         gethint = true;
     };
-
+    /**
+        * @desc return the most popular gaze object with elementTag
+        * @param numeric $rank - the number of return object
+        * @param string $elementTag - the jQuery tag to identify the required element 
+        * @return DOM element list
+    */
     $.topGazeElement = function(rank,elementTag) {
         var sortable = [];
         if(elementTag){
@@ -174,7 +222,9 @@
         return elements;
     };
 
+    // support functions
     $.extend({
+        // check type of the parameter 
         checkFunctionArgument(func,act){
             if (typeof act != 'function') { // make sure the callback is a function
                 console.log(func +  " function's arguments is not a function");
@@ -182,6 +232,7 @@
             }
             return true;
         },
+        //define the default value for threshold
         setThresholdValue(threshold){
             if(threshold)
                 return threshold;
@@ -190,8 +241,9 @@
     })
 
 
-
+    // support functions
     $.extend({
+        // add event listener for receiving gaze point data
         connectTobii: function() {
             console.log("open the listen port ");
               window.addEventListener("message", function(msg) {
@@ -214,6 +266,7 @@
                     }
                 }, false);
         },
+        // update the state of gaze object when receiving the new data
         locateGazePoint: function(gazepoint) {
             var visitedElement = {};
             for (var i = 0; i < gazeObjectList.length; i++){
@@ -274,6 +327,7 @@
                 }
             }
         },
+        // update the state of whether gaze point is within the window
         checkWithinWindow: function(gazepoint) {
             
             var left   = document.documentElement.scrollLeft;
@@ -302,6 +356,7 @@
             }
 
         },
+        // execute every suspending funtion from suspendActionList
         suspending: function(){
             for (var i = 0; i < suspendActionList.length; i++)
                 suspendActionList[i].suspendAction();
@@ -314,8 +369,10 @@
             setTimeout(function() {chrId.style.display = 'none'; }, hintTime);
         }
     })
+    // connect to the content script 
     $.connectTobii();
 
+    // initail the buffer for gazeObject
     function gazeObjectBuffer(length) {
         var array = [];
 
